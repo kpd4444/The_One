@@ -1,0 +1,138 @@
+.pg-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 50;
+}
+
+.pg-nav-wrap {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.pg-logo-img {
+  height: 38px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.pg-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  height: 78px;
+}
+
+.pg-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.pg-nav-main-link {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  height: 100%;
+  color: #4b5563;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pg-nav-main-link.active,
+.pg-nav-main-link:hover {
+  color: #111827;
+}
+
+/* ✅ 밑줄(원하면 유지, 싫으면 아래 블록 통째로 삭제) */
+.pg-nav-main-link.active::after,
+.pg-nav-main-link:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: #111827;
+}
+
+.pg-nav-accent {
+  color: #4f6fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pg-nav-utils {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.pg-nav-utils a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pg-login-btn {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: #111827;
+  background: #fff;
+}
+
+/* =========================
+   ✅ 심플 드롭다운
+========================= */
+.pg-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 10px;
+
+  width: 220px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 8px 0;
+  z-index: 60;
+}
+
+.pg-dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pg-dropdown-link {
+  display: block;
+  padding: 12px 14px;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pg-dropdown-link:hover {
+  background: #f3f4f6;
+}
+
+/* 모바일에서는 숨김 (네 기존 정책 유지) */
+@media (max-width: 900px) {
+  .pg-nav-menu,
+  .pg-nav-utils {
+    display: none;
+  }
+}
