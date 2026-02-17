@@ -54,23 +54,23 @@
 
 .nav-submenu {
   position: absolute;
-  left: 50%;
+  left: 0;
   top: calc(100% + 12px);
-  transform: translateX(-50%) translateY(-4px);
-  min-width: 300px;
-  border: 1px solid #cfd3da;
-  background: #fff;
-  padding: 18px 0;
+  min-width: 180px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 8px 0;
   opacity: 0;
   visibility: hidden;
+  transform: translateY(-4px);
   transition: all 0.14s ease;
-  z-index: 40;
+  z-index: 30;
 }
 
 .nav-submenu.show {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .nav-submenu ul {
@@ -81,16 +81,14 @@
 
 .nav-submenu li a {
   display: block;
-  padding: 10px 40px;
-  color: #6b7280;
-  font-size: 22px;
+  padding: 8px 16px;
+  color: var(--muted);
   font-weight: 500;
-  line-height: 1.45;
   white-space: nowrap;
 }
 
 .nav-submenu li a:hover {
-  color: #111827;
+  color: var(--text);
 }
 
 .hero { padding: 96px 0 84px; }
@@ -372,9 +370,13 @@ h1 {
 
 @media (max-width: 900px) {
   .nav-menu,
+  .mega-menu,
+  .mega-backdrop,
   .org-branch-top .org-arm,
   .org-branch-top .org-box.dev,
   .org-branch-mid .org-bar { display: none; }
+
+  .nav-item { padding: 0; }
 
   .hero-grid,
   .product-hero,
