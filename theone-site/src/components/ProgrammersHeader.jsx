@@ -25,12 +25,6 @@ const navItems = [
         ],
       },
     ],
-    promo: {
-      title: "더원산업 기업 소개",
-      desc: "회사 비전, 연혁, 조직, 위치 정보를 한눈에 확인해보세요.",
-      cta: "회사소개 자세히 보기",
-      href: "/about",
-    },
   },
   {
     label: "제품소개",
@@ -53,12 +47,6 @@ const navItems = [
         ],
       },
     ],
-    promo: {
-      title: "현장 맞춤형 제품 솔루션",
-      desc: "설계부터 제작·설치·유지보수까지 원스톱으로 제공합니다.",
-      cta: "제품소개 자세히 보기",
-      href: "/products",
-    },
   },
   {
     label: "갤러리",
@@ -72,12 +60,6 @@ const navItems = [
         ],
       },
     ],
-    promo: {
-      title: "프로젝트 아카이브",
-      desc: "더원산업이 수행한 다양한 현장 사례를 이미지로 확인해보세요.",
-      cta: "갤러리 이동",
-      href: "/gallery",
-    },
   },
   {
     label: "고객센터",
@@ -91,72 +73,79 @@ const navItems = [
         ],
       },
     ],
-    promo: {
-      title: "빠른 고객 지원",
-      desc: "문의 접수 후 담당자가 순차적으로 빠르게 회신드립니다.",
-      cta: "고객센터 바로가기",
-      href: "/support",
-    },
   },
 ];
+
+function flattenLinks(groups = []) {
+  const out = [];
+  for (const g of groups) {
+    for (const l of g.links || []) out.push(l);
+  }
+  return out;
+}
 
 export default function ProgrammersHeader() {
   const [openMenu, setOpenMenu] = useState(null);
 
   return (
-    <header className="pg-header" onMouseLeave={() => setOpenMenu(null)}>
+    <header className="pg-header">
       <div className="container pg-nav-wrap">
         <Link className="pg-logo" to="/" aria-label="더원산업 홈">
           <img src={logo} alt="T.ONE (주)더원산업" className="pg-logo-img" />
         </Link>
 
         <nav className="pg-nav-menu" aria-label="메인 메뉴">
-          {navItems.map((item) => (
-            <div key={item.label} className="pg-nav-item" onMouseEnter={() => setOpenMenu(item.label)}>
-              <NavLink to={item.to} className={({ isActive }) => `pg-nav-main-link ${isActive ? "active" : ""}`}>
-                {item.label}
-                {item.accent ? <span className="pg-nav-accent">{item.accent}</span> : null}
-              </NavLink>
-            </div>
-          ))}
+          {navItems.map((item) => {
+            const links = flattenLinks(item.groups);
+
+            return (
+              <div
+                key={item.label}
+                className="pg-nav-item"
+                onMouseEnter={() => setOpenMenu(item.label)}
+                onMouseLeave={() => setOpenMenu(null)}
+              >
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `pg-nav-main-link ${isActive ? "active" : ""}`
+                  }
+                >
+                  {item.label}
+                  {item.accent ? (
+                    <span className="pg-nav-accent">{item.accent}</span>
+                  ) : null}
+                </NavLink>
+
+                {/* ✅ 심플 드롭다운 (링크만) */}
+                {openMenu === item.label && (
+                  <div className="pg-dropdown" role="menu" aria-label={`${item.label} 메뉴`}>
+                    <ul className="pg-dropdown-list">
+                      {links.map((link) => (
+                        <li key={link.label}>
+                          <Link
+                            to={link.href}
+                            className="pg-dropdown-link"
+                            onClick={() => setOpenMenu(null)}
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
         <div className="pg-nav-utils">
           <Link to="/gallery">블로그</Link>
           <Link to="/support">기업 서비스</Link>
-          <Link className="pg-login-btn" to="/support#inquiry">로그인</Link>
-        </div>
-      </div>
-
-      <div className={`pg-mega-panel ${openMenu ? "show" : ""}`}>
-        <div className="container pg-mega-panel-inner">
-          {navItems
-            .filter((item) => item.label === openMenu)
-            .map((item) => (
-              <div key={item.label} className="pg-mega-layout">
-                <div className={`pg-mega-links ${item.groups.length > 2 ? "cols-3" : "cols-2"}`}>
-                  {item.groups.map((group) => (
-                    <section key={group.title} className="pg-mega-col">
-                      <h4>{group.title}</h4>
-                      <ul>
-                        {group.links.map((link) => (
-                          <li key={link.label}>
-                            <Link to={link.href} className="pg-mega-link">{link.label}</Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </section>
-                  ))}
-                </div>
-
-                <article className="pg-mega-promo">
-                  <div className="pg-mega-promo-thumb" aria-hidden="true" />
-                  <strong>{item.promo.title}</strong>
-                  <p>{item.promo.desc}</p>
-                  <Link to={item.promo.href}>{item.promo.cta} ❯</Link>
-                </article>
-              </div>
-            ))}
+          <Link className="pg-login-btn" to="/support#inquiry">
+            로그인
+          </Link>
         </div>
       </div>
     </header>

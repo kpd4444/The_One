@@ -2,7 +2,7 @@ const quickMenus = [
   { icon: "🎓", label: "더원" },
   { icon: "💻", label: "조성록" },
   { icon: "📄", label: "더원" },
-  { icon: "📰", label: "ㅋㅋㅋ" },
+  { icon: "📰", label: "더원" },
   { icon: "🧩", label: "더원" },
   { icon: "🏅", label: "더원" },
 ];
@@ -34,7 +34,7 @@ export default function MainPage() {
       <section className="section course-section">
         <div className="container">
           <div className="course-head">
-            <h2>국비지원으로 개발자 커리어 시작!</h2>
+            <h2> 시작!</h2>
             <a href="#">더 보기 ❯</a>
           </div>
 

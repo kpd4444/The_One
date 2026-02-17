@@ -30,6 +30,7 @@
 }
 
 .pg-nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
@@ -44,6 +45,7 @@
   color: #4b5563;
   font-size: 17px;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .pg-nav-main-link.active,
@@ -51,6 +53,7 @@
   color: #111827;
 }
 
+/* ✅ 밑줄(원하면 유지, 싫으면 아래 블록 통째로 삭제) */
 .pg-nav-main-link.active::after,
 .pg-nav-main-link:hover::after {
   content: "";
@@ -76,6 +79,11 @@
   font-weight: 600;
 }
 
+.pg-nav-utils a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .pg-login-btn {
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -84,122 +92,47 @@
   background: #fff;
 }
 
-.pg-mega-panel {
+/* =========================
+   ✅ 심플 드롭다운
+========================= */
+.pg-dropdown {
   position: absolute;
-  left: 0;
-  right: 0;
   top: 100%;
+  left: 0;
+  margin-top: 10px;
+
+  width: 220px;
   background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: all 0.16s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 8px 0;
+  z-index: 60;
 }
 
-.pg-mega-panel.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.pg-mega-panel-inner {
-  padding-top: 28px;
-  padding-bottom: 28px;
-}
-
-.pg-mega-layout {
-  display: grid;
-  grid-template-columns: 1.2fr 360px;
-  gap: 38px;
-}
-
-.pg-mega-links.cols-2,
-.pg-mega-links.cols-3 {
-  display: grid;
-  gap: 22px;
-}
-
-.pg-mega-links.cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.pg-mega-links.cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.pg-mega-col h4 {
-  color: #9ca3af;
-  margin: 0;
-  font-size: 16px;
-}
-
-.pg-mega-col ul {
-  margin: 10px 0 0;
-  padding: 0;
+.pg-dropdown-list {
   list-style: none;
-  display: grid;
-  gap: 12px;
+  padding: 0;
+  margin: 0;
 }
 
-.pg-mega-link {
-  color: #111827;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.pg-mega-link:hover {
-  color: #2563eb;
-}
-
-.pg-mega-promo {
-  border-radius: 18px;
-  padding: 16px;
-  background: #f8fafc;
-}
-
-.pg-mega-promo-thumb {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  border-radius: 14px;
-  background: linear-gradient(140deg, #d7efe0, #e8f1d3);
-  border: 1px solid #d7e8d9;
-}
-
-.pg-mega-promo strong {
+.pg-dropdown-link {
   display: block;
-  margin-top: 12px;
-  font-size: 16px;
-  line-height: 1.35;
-}
-
-.pg-mega-promo p {
-  margin: 8px 0 12px;
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.pg-mega-promo a {
+  padding: 12px 14px;
   color: #111827;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
+.pg-dropdown-link:hover {
+  background: #f3f4f6;
+}
+
+/* 모바일에서는 숨김 (네 기존 정책 유지) */
 @media (max-width: 900px) {
   .pg-nav-menu,
-  .pg-nav-utils,
-  .pg-mega-panel {
+  .pg-nav-utils {
     display: none;
-  }
-
-  .pg-mega-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .pg-mega-links.cols-2,
-  .pg-mega-links.cols-3 {
-    grid-template-columns: 1fr;
   }
 }
