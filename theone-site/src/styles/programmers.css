@@ -30,6 +30,7 @@
 }
 
 .pg-nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
@@ -63,9 +64,48 @@
 }
 
 .pg-nav-accent {
-  color: #4f6fff;
+  color: #6d5cff;
   font-size: 12px;
   font-weight: 700;
+}
+
+.pg-submenu {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 12px);
+  transform: translateX(-50%) translateY(-4px);
+  min-width: 300px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 14px 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.14s ease;
+  z-index: 60;
+}
+
+.pg-submenu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.pg-submenu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.pg-submenu-link {
+  color: #6b7280;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.pg-submenu-link:hover {
+  color: #111827;
 }
 
 .pg-nav-utils {
@@ -84,74 +124,9 @@
   background: #fff;
 }
 
-.pg-mega-panel {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: all 0.16s ease;
-}
-
-.pg-mega-panel.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.pg-mega-panel-inner {
-  padding: 24px 0;
-}
-
-.pg-mega-all-columns {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 28px;
-}
-
-.pg-mega-col h4 {
-  margin: 0;
-  border: 1px solid #d1d5db;
-  padding: 8px 12px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.pg-mega-col h4 a {
-  color: #111827;
-}
-
-.pg-mega-col ul {
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 12px;
-}
-
-.pg-mega-link {
-  color: #111827;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-.pg-mega-link:hover {
-  color: #2563eb;
-}
-
 @media (max-width: 900px) {
   .pg-nav-menu,
-  .pg-nav-utils,
-  .pg-mega-panel {
+  .pg-nav-utils {
     display: none;
-  }
-
-  .pg-mega-all-columns {
-    grid-template-columns: 1fr;
   }
 }
