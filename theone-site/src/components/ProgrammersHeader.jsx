@@ -26,7 +26,7 @@ const navItems = [
   {
     label: "갤러리",
     to: "/gallery",
-    links: [{ label: "시공 사례 보기", href: "/gallery" }],
+    links: [],
   },
   {
     label: "고객센터",
