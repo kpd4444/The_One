@@ -1,0 +1,44 @@
+.container {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.section { padding: 84px 0; }
+.section-muted { background: #f1f5f9; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-outline {
+  border-color: var(--line);
+  background: var(--surface);
+  padding: 10px 18px; /* 최종 값으로 통일 */
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-ghost {
+  border-color: #bfdbfe;
+  color: var(--primary);
+  background: #eff6ff;
+}
+
+.card-grid {
+  margin-top: 28px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
