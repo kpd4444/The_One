@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
+import ProgrammersHeader from "../components/ProgrammersHeader";
 import Footer from "../components/Footer";
 import ScrollToHash from "../components/ScrollToHash";
 
@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       <ScrollToHash />
-      <Header />
+      <ProgrammersHeader />
       <Outlet />
       <Footer />
     </>

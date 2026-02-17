@@ -370,9 +370,13 @@ h1 {
 
 @media (max-width: 900px) {
   .nav-menu,
+  .mega-menu,
+  .mega-backdrop,
   .org-branch-top .org-arm,
   .org-branch-top .org-box.dev,
   .org-branch-mid .org-bar { display: none; }
+
+  .nav-item { padding: 0; }
 
   .hero-grid,
   .product-hero,

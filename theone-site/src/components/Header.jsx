@@ -77,6 +77,7 @@ export default function Header() {
 
         <Link className="btn btn-outline" to="/#contact">상담 신청</Link>
       </div>
+      {openMenu && <div className="mega-backdrop" onMouseEnter={() => setOpenMenu(null)} />}
     </header>
   );
 }
