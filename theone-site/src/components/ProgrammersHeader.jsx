@@ -1,0 +1,93 @@
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
+
+const navItems = [
+  {
+    label: "회사소개",
+    to: "/about",
+    accent: "기업",
+    links: [
+      { label: "인사말", href: "/about#greeting" },
+      { label: "회사연혁", href: "/about#history" },
+      { label: "조직도", href: "/about#org" },
+      { label: "찾아오시는 길", href: "/about#location" },
+    ],
+  },
+  {
+    label: "제품소개",
+    to: "/products",
+    accent: "주요",
+    links: [
+      { label: "제품특성 및 적용분야", href: "/products" },
+      { label: "상담/견적 문의", href: "/support#inquiry" },
+    ],
+  },
+  {
+    label: "갤러리",
+    to: "/gallery",
+    links: [{ label: "시공 사례 보기", href: "/gallery" }],
+  },
+  {
+    label: "고객센터",
+    to: "/support",
+    links: [
+      { label: "공지사항", href: "/support#notice" },
+      { label: "고객문의", href: "/support#inquiry" },
+    ],
+  },
+];
+
+export default function ProgrammersHeader() {
+  const [openMenu, setOpenMenu] = useState(false);
+
+  return (
+    <header className="pg-header" onMouseLeave={() => setOpenMenu(false)}>
+      <div className="container pg-nav-wrap">
+        <Link className="pg-logo" to="/" aria-label="더원산업 홈">
+          <img src={logo} alt="T.ONE (주)더원산업" className="pg-logo-img" />
+        </Link>
+
+        <nav className="pg-nav-menu" aria-label="메인 메뉴" onMouseEnter={() => setOpenMenu(true)}>
+          {navItems.map((item) => (
+            <div key={item.label} className="pg-nav-item">
+              <NavLink to={item.to} className={({ isActive }) => `pg-nav-main-link ${isActive ? "active" : ""}`}>
+                {item.label}
+                {item.accent ? <span className="pg-nav-accent">{item.accent}</span> : null}
+              </NavLink>
+            </div>
+          ))}
+        </nav>
+
+        <div className="pg-nav-utils">
+          <Link to="/gallery">블로그</Link>
+          <Link to="/support">기업 서비스</Link>
+          <Link className="pg-login-btn" to="/support#inquiry">로그인</Link>
+        </div>
+      </div>
+
+      <div className={`pg-mega-panel ${openMenu ? "show" : ""}`} onMouseEnter={() => setOpenMenu(true)}>
+        <div className="container pg-mega-panel-inner">
+          <div className="pg-mega-all-columns">
+            {navItems.map((item) => (
+              <section key={item.label} className="pg-mega-col">
+                <h4>
+                  <Link to={item.to}>{item.label}</Link>
+                </h4>
+                <ul>
+                  {item.links.map((link) => (
+                    <li key={link.label}>
+                      <Link to={link.href} className="pg-mega-link">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
