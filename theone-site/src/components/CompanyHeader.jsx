@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const navItems = [
+const menuItems = [
   {
     label: "회사소개",
     to: "/about",
@@ -36,31 +36,30 @@ const navItems = [
   },
 ];
 
-export default function Header() {
+export default function CompanyHeader() {
   const [openMenu, setOpenMenu] = useState(null);
 
   return (
-    <header className="site-header" onMouseLeave={() => setOpenMenu(null)}>
-      <div className="container nav-wrap">
-        <Link className="logo" to="/" aria-label="더원산업 홈">
-          <img src={logo} alt="T.ONE (주)더원산업" className="logo-img" />
+    <header className="ch-header" onMouseLeave={() => setOpenMenu(null)}>
+      <div className="container ch-nav-wrap">
+        <Link className="ch-logo" to="/" aria-label="더원산업 홈">
+          <img src={logo} alt="T.ONE (주)더원산업" className="ch-logo-img" />
         </Link>
 
-        <nav className="nav-menu" aria-label="메인 메뉴">
-          {navItems.map((item) => {
+        <nav className="ch-nav-menu" aria-label="메인 메뉴">
+          {menuItems.map((item) => {
             const hasLinks = item.links.length > 0;
-
             return (
               <div
                 key={item.label}
-                className="nav-item"
+                className="ch-nav-item"
                 onMouseEnter={() => setOpenMenu(hasLinks ? item.label : null)}
                 onFocus={() => setOpenMenu(hasLinks ? item.label : null)}
               >
                 <NavLink to={item.to} className={({ isActive }) => (isActive ? "active" : "")}>{item.label}</NavLink>
 
                 {hasLinks && (
-                  <div className={`nav-submenu ${openMenu === item.label ? "show" : ""}`}>
+                  <div className={`ch-submenu ${openMenu === item.label ? "show" : ""}`}>
                     <ul>
                       {item.links.map((link) => (
                         <li key={link.label}>
