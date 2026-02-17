@@ -4,71 +4,101 @@ import logo from "../assets/logo.png";
 
 const navItems = [
   {
-    label: "교육",
+    label: "회사소개",
     to: "/about",
+    accent: "기업",
     groups: [
       {
-        title: "교육 홈",
+        title: "회사 정보",
         links: [
-          { label: "교육 홈", href: "/about" },
+          { label: "인사말", href: "/about#greeting" },
+          { label: "회사연혁", href: "/about#history" },
+          { label: "조직도", href: "/about" },
+          { label: "찾아오시는 길", href: "/about#location" },
+        ],
+      },
+      {
+        title: "고객 안내",
+        links: [
           { label: "공지사항", href: "/support#notice" },
-        ],
-      },
-      {
-        title: "MY 스쿨",
-        links: [
-          { label: "수강 중인 코스", href: "/support#inquiry" },
-          { label: "관리 중인 코스", href: "/support" },
-        ],
-      },
-      {
-        title: "강사 신청",
-        links: [
-          { label: "강사/멘토풀 등록", href: "/support#inquiry" },
-          { label: "캠퍼스", href: "/about#location" },
+          { label: "고객문의", href: "/support#inquiry" },
         ],
       },
     ],
     promo: {
-      title: "실무형 교육 콘텐츠",
-      desc: "산업 현장 기반의 커리큘럼으로 빠르게 업무 역량을 키워보세요.",
-      cta: "교육 자세히 보기",
+      title: "더원산업 기업 소개",
+      desc: "회사 비전, 연혁, 조직, 위치 정보를 한눈에 확인해보세요.",
+      cta: "회사소개 자세히 보기",
       href: "/about",
     },
   },
   {
-    label: "데브코스",
-    accent: "부트캠프",
+    label: "제품소개",
     to: "/products",
+    accent: "주요",
     groups: [
       {
-        title: "데브코스",
+        title: "제품 라인업",
         links: [
-          { label: "데브코스 홈", href: "/products" },
-          { label: "백엔드 과정", href: "/products" },
-          { label: "프론트엔드 과정", href: "/products" },
-          { label: "풀스택 과정", href: "/products" },
+          { label: "제품특성", href: "/products" },
+          { label: "적용분야", href: "/products" },
+          { label: "상담/견적 문의", href: "/support#inquiry" },
         ],
       },
       {
-        title: "취업지원 서비스",
+        title: "지원 서비스",
         links: [
           { label: "취업지원 서비스 안내", href: "/support" },
           { label: "공지사항 및 자료실", href: "/support#notice" },
+        ],
+      },
+    ],
+    promo: {
+      title: "현장 맞춤형 제품 솔루션",
+      desc: "설계부터 제작·설치·유지보수까지 원스톱으로 제공합니다.",
+      cta: "제품소개 자세히 보기",
+      href: "/products",
+    },
+  },
+  {
+    label: "갤러리",
+    to: "/gallery",
+    groups: [
+      {
+        title: "포트폴리오",
+        links: [
+          { label: "시공 사례 보기", href: "/gallery" },
+          { label: "최근 프로젝트", href: "/gallery" },
           { label: "추천 채용 공고", href: "/gallery" },
         ],
       },
     ],
     promo: {
-      title: "실무에 가장 가까운 IT 부트캠프",
-      desc: "프로젝트 중심 수업, 멘토 피드백, 취업지원까지 한 번에 제공합니다.",
-      cta: "데브코스 자세히 보기",
-      href: "/products",
+      title: "프로젝트 아카이브",
+      desc: "더원산업이 수행한 다양한 현장 사례를 이미지로 확인해보세요.",
+      cta: "갤러리 이동",
+      href: "/gallery",
     },
   },
-  { label: "코딩테스트", to: "/gallery", groups: [], promo: null },
-  { label: "인증시험↗", to: "/support", groups: [], promo: null },
-  { label: "리눅스 자격증↗", to: "/support", groups: [], promo: null },
+  {
+    label: "고객센터",
+    to: "/support",
+    groups: [
+      {
+        title: "지원 메뉴",
+        links: [
+          { label: "공지사항", href: "/support#notice" },
+          { label: "고객문의", href: "/support#inquiry" },
+        ],
+      },
+    ],
+    promo: {
+      title: "빠른 고객 지원",
+      desc: "문의 접수 후 담당자가 순차적으로 빠르게 회신드립니다.",
+      cta: "고객센터 바로가기",
+      href: "/support",
+    },
+  },
 ];
 
 export default function Header() {
@@ -105,7 +135,7 @@ export default function Header() {
             .filter((item) => item.label === openMenu && item.groups.length > 0)
             .map((item) => (
               <div key={item.label} className="mega-layout">
-                <div className="mega-links cols-3">
+                <div className={`mega-links ${item.groups.length > 2 ? "cols-3" : "cols-2"}`}>
                   {item.groups.map((group) => (
                     <section key={group.title} className="mega-col">
                       <h4>{group.title}</h4>

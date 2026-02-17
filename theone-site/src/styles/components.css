@@ -114,10 +114,18 @@
   gap: 38px;
 }
 
+.mega-links.cols-2,
 .mega-links.cols-3 {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
+}
+
+.mega-links.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mega-links.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .mega-col h4 {
@@ -561,6 +569,7 @@ h1 {
   .course-head h2 { font-size: 34px; }
   .course-head a { font-size: 22px; }
   .mega-layout { grid-template-columns: 1fr; }
+  .mega-links.cols-2,
   .mega-links.cols-3 { grid-template-columns: 1fr; }
 
   .nav-menu,
