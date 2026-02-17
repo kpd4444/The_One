@@ -36,6 +36,23 @@ const navItems = [
   },
 ];
 
+function resolveItemLinks(item) {
+  if (Array.isArray(item.links)) {
+    return item.links
+      .map((link) => ({ label: link.label, to: link.to ?? link.href }))
+      .filter((link) => link.label && link.to);
+  }
+
+  if (Array.isArray(item.groups)) {
+    return item.groups
+      .flatMap((group) => (Array.isArray(group.links) ? group.links : []))
+      .map((link) => ({ label: link.label, to: link.to ?? link.href }))
+      .filter((link) => link.label && link.to);
+  }
+
+  return [];
+}
+
 export default function Header() {
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -48,7 +65,8 @@ export default function Header() {
 
         <nav className="nav-menu" aria-label="메인 메뉴">
           {navItems.map((item) => {
-            const hasLinks = item.links.length > 0;
+            const itemLinks = resolveItemLinks(item);
+            const hasLinks = itemLinks.length > 0;
 
             return (
               <div
@@ -62,7 +80,7 @@ export default function Header() {
                 {hasLinks && (
                   <div className={`nav-submenu ${openMenu === item.label ? "show" : ""}`}>
                     <ul>
-                      {item.links.map((link) => (
+                      {itemLinks.map((link) => (
                         <li key={link.label}>
                           <Link to={link.to}>{link.label}</Link>
                         </li>
