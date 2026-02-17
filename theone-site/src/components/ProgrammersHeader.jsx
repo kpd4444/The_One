@@ -38,6 +38,13 @@ const navItems = [
   },
 ];
 
+function resolveLinks(item) {
+  if (Array.isArray(item.links)) return item.links;
+  if (!Array.isArray(item.groups)) return [];
+
+  return item.groups.flatMap((group) => Array.isArray(group.links) ? group.links : []);
+}
+
 export default function ProgrammersHeader() {
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -50,7 +57,8 @@ export default function ProgrammersHeader() {
 
         <nav className="pg-nav-menu" aria-label="메인 메뉴">
           {navItems.map((item) => {
-            const hasLinks = item.links && item.links.length > 0;
+            const menuLinks = resolveLinks(item);
+            const hasLinks = menuLinks.length > 0;
 
             return (
               <div
@@ -67,7 +75,7 @@ export default function ProgrammersHeader() {
                 {hasLinks && (
                   <div className={`pg-submenu ${openMenu === item.label ? "show" : ""}`}>
                     <ul>
-                      {item.links.map((link) => (
+                      {menuLinks.map((link) => (
                         <li key={link.label}>
                           <Link to={link.href} className="pg-submenu-link">
                             {link.label}
