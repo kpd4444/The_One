@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const navItems = [
@@ -99,22 +99,6 @@ const navItems = [
   },
 ];
 
-function MenuLink({ item, className }) {
-  if (item.to) {
-    return (
-      <Link to={item.to} className={className}>
-        {item.label}
-      </Link>
-    );
-  }
-
-  return (
-    <a href={item.href} className={className}>
-      {item.label}
-    </a>
-  );
-}
-
 export default function Header() {
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -127,7 +111,12 @@ export default function Header() {
 
         <nav className="nav-menu" aria-label="메인 메뉴">
           {navItems.map((item) => (
-            <div key={item.label} className="nav-item" onMouseEnter={() => setOpenMenu(item.label)}>
+            <div
+              key={item.label}
+              className="nav-item"
+              onMouseEnter={() => setOpenMenu(item.label)}
+              onFocus={() => setOpenMenu(item.label)}
+            >
               <NavLink to={item.to} className={({ isActive }) => `nav-main-link ${isActive ? "active" : ""}`}>
                 {item.label}
                 {item.accent ? <span className="nav-accent">{item.accent}</span> : null}
@@ -156,7 +145,9 @@ export default function Header() {
                       <ul>
                         {group.links.map((linkItem) => (
                           <li key={linkItem.label}>
-                            <MenuLink item={linkItem} className="mega-link" />
+                            <Link to={linkItem.to} className="mega-link">
+                              {linkItem.label}
+                            </Link>
                           </li>
                         ))}
                       </ul>
