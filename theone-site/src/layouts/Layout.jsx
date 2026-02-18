@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import ProgrammersHeader from "../components/ProgrammersHeader";
+import ProgrammersHeader from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollToHash from "../components/ScrollToHash";
 
