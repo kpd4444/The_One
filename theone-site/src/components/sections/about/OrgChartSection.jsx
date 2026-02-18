@@ -1,66 +1,58 @@
-export default function OrgChartSection() {
+﻿export default function OrgChartSection() {
   return (
-    <section className="section">
+    <section id="org" className="section">
       <div className="container">
-        <h2>조직도</h2>
-        <p style={{ color: "var(--muted)", marginTop: 8 }}>
-          더원산업의 조직 구성입니다.
-        </p>
+        <div className="org-modern">
+          <header className="org-modern-head">
+            <p>ORGANIZATION</p>
+            <h3>책임과 전문성을 기반으로 협업하는 조직 구조</h3>
+          </header>
 
-        <div className="org">
-          {/* 대표이사 */}
-          <div className="org-row org-row-center">
-            <div className="org-box ceo">대표이사</div>
+          <div className="org-ceo-card">
+            <span className="org-role">대표이사</span>
+            <strong>조성록</strong>
           </div>
 
-          {/* 대표이사 -> 총괄이사 (세로선) */}
-          <div className="org-line-v" />
+          <div className="org-link-line" aria-hidden="true" />
 
-          {/* 총괄이사 */}
-          <div className="org-row org-row-center">
-            <div className="org-box exec">총괄이사</div>
+          <div className="org-core-grid">
+            <article className="org-card core">
+              <h4>경영지원실</h4>
+              <p>재무, 인사, 총무, 구매</p>
+            </article>
+            <article className="org-card core">
+              <h4>기술·개발팀</h4>
+              <p>도면 검토, 공정 설계, 기술 개선</p>
+            </article>
           </div>
 
-          {/* 총괄이사 아래 연결: 개발팀(오른쪽) + 아래로 내려가는 선 */}
-          <div className="org-branch">
-            <div className="org-branch-top">
-              <div className="org-stem" />
-              <div className="org-arm" />
-              <div className="org-box dev">개발팀</div>
-            </div>
+          <div className="org-team-grid">
+            <article className="org-card team">
+              <h4>생산팀</h4>
+              <ul>
+                <li>가공</li>
+                <li>조립</li>
+                <li>설비 운영</li>
+              </ul>
+            </article>
 
-            {/* 아래 3팀으로 내려가는 줄 + 가로줄 */}
-            <div className="org-branch-mid">
-              <div className="org-stem" />
-              <div className="org-bar" />
-            </div>
+            <article className="org-card team">
+              <h4>품질관리팀</h4>
+              <ul>
+                <li>공정 품질 점검</li>
+                <li>출하 검사</li>
+                <li>품질 개선 관리</li>
+              </ul>
+            </article>
 
-            {/* 하위 3팀 */}
-            <div className="org-teams">
-              <div className="org-team">
-                <div className="org-drop" />
-                <div className="org-box team">
-                  <strong>지 원 팀</strong>
-                  <span>경리/인사/총무/자재/구매</span>
-                </div>
-              </div>
-
-              <div className="org-team">
-                <div className="org-drop" />
-                <div className="org-box team">
-                  <strong>설계팀</strong>
-                  <span>영업관리</span>
-                </div>
-              </div>
-
-              <div className="org-team">
-                <div className="org-drop" />
-                <div className="org-box team">
-                  <strong>생 산 팀</strong>
-                  <span>생산/가공/조립/품질</span>
-                </div>
-              </div>
-            </div>
+            <article className="org-card team">
+              <h4>영업·고객지원</h4>
+              <ul>
+                <li>견적 및 일정 협의</li>
+                <li>프로젝트 커뮤니케이션</li>
+                <li>납품 후 고객 대응</li>
+              </ul>
+            </article>
           </div>
         </div>
       </div>

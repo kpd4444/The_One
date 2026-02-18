@@ -1,85 +1,208 @@
-const features = [
+﻿import { useEffect, useMemo, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import itsImg from "../assets/product-its-enclosure.png";
+import kioskImg from "../assets/product-kiosk-body.png";
+import projectBeamAImg from "../assets/product-project-beam-case-a.png";
+import projectBeamBImg from "../assets/product-project-beam-case-b.png";
+import gateLprAImg from "../assets/product-gate-lpr-a.png";
+import gateLprBImg from "../assets/product-gate-lpr-b.png";
+import telecomImg from "../assets/product-telecom-enclosure.png";
+import housingImg from "../assets/product-housing.png";
+
+const products = [
   {
-    title: "내구성 중심 설계",
-    desc: "현장 환경을 고려한 구조 설계로 장기간 안정적으로 사용 가능합니다.",
+    id: "knm",
+    code: "KNM",
+    name: "ITS 함체",
+    material: "스테인레스",
+    usage: "주제어기 및 장비의 보호 및 체결",
+    images: [itsImg],
   },
   {
-    title: "맞춤 제작/설치",
-    desc: "용도와 공간에 맞춰 규격·사양을 커스터마이징하여 적용합니다.",
+    id: "krm",
+    code: "KRM",
+    name: "정산기",
+    material: "CR 및 EGI",
+    usage: "주차 관제 시스템",
+    images: [kioskImg],
   },
   {
-    title: "안전/품질 기준 준수",
-    desc: "공정별 체크리스트로 품질을 관리하고 납기·안정성을 확보합니다.",
+    id: "ktm",
+    code: "KTM",
+    name: "프로젝트 빔케이스 및 프로젝트 빔",
+    material: "SUS 및 SUS폴, EGI",
+    usage: "야외 행사용 및 교육용",
+    images: [projectBeamAImg, projectBeamBImg],
   },
+  {
+    id: "kgm",
+    code: "KGM",
+    name: "GATE LPR",
+    material: "CR 및 EGI",
+    usage: "실내 및 야외 행사용",
+    images: [gateLprAImg, gateLprBImg],
+  },
+  {
+    id: "knm-m",
+    code: "KNM-M",
+    name: "통신함체",
+    material: "스테인레스(SUS, STS)",
+    usage: "통신장비용",
+    images: [telecomImg],
+  },
+  {
+    id: "krm-m",
+    code: "KRM-M",
+    name: "하우징",
+    material: "SUS 및 알루미늄(AL)",
+    usage: "차량번호인식카메라 및 단속카메라 장비용",
+    images: [housingImg],
+  }
+  
 ];
 
-const fields = [
-  "제조 라인",
-  "물류/창고",
-  "설비/배관",
-  "현장 시공",
-  "산업 플랜트",
-  "유지보수",
+const productFeatures = [
+  "내·외부 구성장비 최적화 상태 유지 보존",
+  "맞춤형 설계를 통해 수명과 동작이 효율적으로 작동",
+  "태양열로부터 함체 내부 온도 상승을 막아주는 이중 구조",
+];
+
+const applicationFields = ["VDS", "RWIS", "AVI", "VMS", "ITS용 함체", "주차 관제", "통신 장비"];
+
+const pageTabs = [
+  { id: "feature", label: "제품 특성" },
+  { id: "apply", label: "적용 분야" },
 ];
 
 export default function ProductsPage() {
+  const { pathname, search } = useLocation();
+  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const currentTab = searchParams.get("tab") === "apply" ? "apply" : "feature";
+  const [activeProductId, setActiveProductId] = useState(products[0].id);
+  const [modalProduct, setModalProduct] = useState(null);
+
+  useEffect(() => {
+    const onEscape = (event) => {
+      if (event.key === "Escape") setModalProduct(null);
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, []);
+
   return (
-    <main>
-      <section className="section">
-        <div className="container">
-          <h1>제품소개</h1>
-          <p style={{ color: "var(--muted)", marginTop: 8, maxWidth: 820 }}>
-            (주)더원산업은 현장 요구에 맞춘 제품을 제작·설치합니다.
-            제품 특성과 적용 분야를 확인해보세요.
-          </p>
+    <main className="about-page section">
+      <div className="container">
+        <div className="about-breadcrumb">
+          <span>HOME</span>
+          <span className="about-crumb-sep">&gt;</span>
+          <span>제품소개</span>
+          <span className="about-crumb-sep">&gt;</span>
+          <strong>{currentTab === "feature" ? "제품 특성" : "적용 분야"}</strong>
+        </div>
 
-          <div className="product-hero" style={{ marginTop: 18 }}>
-            <div>
-              <div className="tag">Product</div>
-              <h2 style={{ margin: 0 }}>제품특성</h2>
-              <p style={{ color: "var(--muted)", marginTop: 10 }}>
-                목적에 맞는 설계 → 제작 → 설치까지 한 번에 진행합니다.
-              </p>
-            </div>
-            <div className="product-hero-box">
-              <div style={{ fontWeight: 800 }}>상담/견적</div>
-              <div style={{ color: "var(--muted)", marginTop: 6 }}>
-                전화 또는 이메일로 문의주시면 빠르게 안내드립니다.
-              </div>
-              <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <a className="btn btn-primary" href="mailto:hello@theone.com">이메일 문의</a>
-                <a className="btn btn-outline" href="/support#inquiry">문의 폼</a>
-              </div>
-            </div>
-          </div>
+        <div className="about-layout">
+          <aside className="about-sidebar" aria-label="제품 소개 메뉴">
+            <h2>제품소개</h2>
+            <ul>
+              {pageTabs.map((tab) => (
+                <li key={tab.id}>
+                  <Link
+                    to={`${pathname}?tab=${tab.id}`}
+                    className={currentTab === tab.id ? "active" : ""}
+                  >
+                    {tab.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
 
-          <div className="card-grid" style={{ marginTop: 22 }}>
-            {features.map((f) => (
-              <article key={f.title} className="feature-card">
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
-              </article>
-            ))}
+          <section className="about-content">
+            <header className="product-detail-head">
+              <h1>{currentTab === "feature" ? "제품 특성" : "적용 분야"}</h1>
+            </header>
+
+            {currentTab === "feature" ? (
+              <section className="product-feature-duo" aria-label="제품 특성">
+                <article className="product-feature-card">
+                  <h2>제품 특성</h2>
+                  <ul>
+                    {productFeatures.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+              </section>
+            ) : (
+              <section className="product-feature-duo" aria-label="적용 분야">
+                <article className="product-feature-card">
+                  <h2>적용 분야</h2>
+                  <div className="product-application-chips">
+                    {applicationFields.map((field) => (
+                      <span key={field}>{field}</span>
+                    ))}
+                  </div>
+                </article>
+              </section>
+            )}
+
+            <section className="product-mini-grid" aria-label="제품 카드 목록">
+              {products.map((product) => (
+                <article key={product.id} className="product-mini-card">
+                  <button
+                    type="button"
+                    className={`product-mini-link ${
+                      activeProductId === product.id ? "active" : ""
+                    }`.trim()}
+                    onClick={() => {
+                      setActiveProductId(product.id);
+                      setModalProduct(product);
+                    }}
+                  >
+                    <div className="product-mini-top">{product.name}</div>
+                    <div className="product-mini-image-row">
+                      {product.images.slice(0, 1).map((imgSrc, idx) => (
+                        <figure key={`${product.id}-${idx}`}>
+                          <img src={imgSrc} alt={product.name} loading="lazy" />
+                        </figure>
+                      ))}
+                    </div>
+                  </button>
+                </article>
+              ))}
+            </section>
+          </section>
+        </div>
+      </div>
+
+      {modalProduct && (
+        <div className="product-modal-overlay" onClick={() => setModalProduct(null)} role="presentation">
+          <div className="product-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <button type="button" className="product-modal-close" onClick={() => setModalProduct(null)}>
+              ×
+            </button>
+
+            <div className="product-modal-spec">
+              <div>
+                <span>제품명</span>
+                <strong>{modalProduct.name}</strong>
+              </div>
+              <div>
+                <span>재질</span>
+                <strong>{modalProduct.material}</strong>
+              </div>
+              <div>
+                <span>용도</span>
+                <strong>{modalProduct.usage}</strong>
+              </div>
+            </div>
+
+            <figure className="product-modal-image">
+              <img src={modalProduct.images[0]} alt={modalProduct.name} loading="lazy" />
+            </figure>
           </div>
         </div>
-      </section>
-
-      <section className="section section-muted">
-        <div className="container">
-          <h2>적용분야</h2>
-          <p style={{ color: "var(--muted)", marginTop: 8 }}>
-            아래 분야에서 다양한 프로젝트 경험을 보유하고 있습니다.
-          </p>
-
-          <div className="field-grid" style={{ marginTop: 16 }}>
-            {fields.map((name) => (
-              <div key={name} className="field-pill">
-                {name}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      )}
     </main>
   );
 }
