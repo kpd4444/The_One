@@ -1,27 +1,6 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-const noticeRows = [
-  {
-    id: 1,
-    title: "2026년 새해 복 많이 받으세요.",
-    author: "관리자",
-    date: "2026-01-02",
-    views: 128,
-    content: [
-      "안녕하십니까. 더원산업입니다.",
-      "지난 한 해 동안 보내주신 신뢰와 성원에 진심으로 감사드립니다. 고객사 여러분의 관심과 협력 덕분에 당사는 안정적인 품질과 납기 대응을 바탕으로 한 단계 더 성장할 수 있었습니다.",
-      "다가오는 설 명절에는 가족, 동료와 함께 따뜻하고 평안한 시간 보내시길 바랍니다. 연휴 기간 동안 쌓인 피로는 충분히 쉬시고, 새해에는 하시는 모든 일에 건강과 행복이 늘 함께하시기를 기원합니다.",
-      "더원산업은 앞으로도 책임 있는 자세로 고객의 요구에 성실히 대응하고, 더 나은 제품과 서비스로 보답하겠습니다. 새해에도 변함없는 관심과 격려 부탁드립니다.",
-      "감사합니다.",
-    ],
-  },
-];
-
-const tabs = [
-  { id: "notice", label: "공지사항" },
-  { id: "inquiry", label: "고객문의" },
-];
+import { noticeRows, supportTabs } from "../data/supportData";
 
 export default function SupportPage() {
   const { pathname, search } = useLocation();
@@ -46,15 +25,15 @@ export default function SupportPage() {
     return noticeRows.filter((row) => row.title.toLowerCase().includes(keyword));
   }, [searchKeyword]);
 
+  const selectedNotice = useMemo(
+    () => noticeRows.find((row) => row.id === noticeId) ?? null,
+    [noticeId],
+  );
+
   const handleSearch = (event) => {
     event.preventDefault();
     setSearchKeyword(keywordInput);
   };
-
-  const selectedNotice = useMemo(
-    () => noticeRows.find((row) => row.id === noticeId) ?? null,
-    [noticeId]
-  );
 
   const handleInquiryChange = (field) => (event) => {
     setInquiryForm((prev) => ({ ...prev, [field]: event.target.value }));
@@ -87,8 +66,7 @@ export default function SupportPage() {
 
       setInquiryStatus({
         type: "success",
-        message:
-          "문의가 접수되었습니다.",
+        message: "문의가 접수되었습니다.",
       });
       setInquiryForm({ name: "", phone: "", email: "", message: "" });
     } catch {
@@ -116,7 +94,7 @@ export default function SupportPage() {
           <aside className="about-sidebar" aria-label="고객센터 메뉴">
             <h2>고객센터</h2>
             <ul>
-              {tabs.map((tab) => (
+              {supportTabs.map((tab) => (
                 <li key={tab.id}>
                   <Link
                     to={`${pathname}?tab=${tab.id}`}
@@ -211,10 +189,7 @@ export default function SupportPage() {
                   <p>문의 내용을 남겨주시면 확인 후 빠르게 연락드리겠습니다.</p>
                 </header>
 
-                <form
-                  className="support-inquiry-form"
-                  onSubmit={handleInquirySubmit}
-                >
+                <form className="support-inquiry-form" onSubmit={handleInquirySubmit}>
                   <label>
                     이름
                     <input

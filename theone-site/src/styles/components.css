@@ -130,12 +130,13 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0) 36%),
-    radial-gradient(circle at 50% 50%, rgba(108, 184, 232, 0.14), rgba(108, 184, 232, 0) 64%);
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle at 46% 46%, rgba(66, 132, 214, 0.12), rgba(66, 132, 214, 0) 62%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.26),
-    0 36px 90px rgba(4, 15, 29, 0.32);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 40px 100px rgba(2, 10, 24, 0.44);
   overflow: hidden;
+  animation: globe-drift 28s ease-in-out infinite;
 }
 
 .home-globe::before,
@@ -157,9 +158,10 @@
   inset: 0;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 18%),
-    radial-gradient(circle at 50% 52%, rgba(53, 153, 213, 0.22), rgba(53, 153, 213, 0) 62%),
-    radial-gradient(circle at 70% 72%, rgba(7, 27, 48, 0.56), rgba(7, 27, 48, 0) 42%);
+    radial-gradient(circle at 24% 21%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 16%),
+    radial-gradient(circle at 54% 46%, rgba(50, 130, 215, 0.18), rgba(50, 130, 215, 0) 60%),
+    radial-gradient(circle at 76% 80%, rgba(5, 18, 39, 0.82), rgba(5, 18, 39, 0) 48%);
+  animation: globe-light-shift 16s ease-in-out infinite;
 }
 
 .home-globe-ocean {
@@ -167,70 +169,135 @@
   inset: 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 35% 24%, rgba(117, 217, 255, 0.56), rgba(117, 217, 255, 0) 18%),
-    radial-gradient(circle at 52% 44%, rgba(38, 140, 204, 0.94), rgba(13, 63, 111, 0.98) 58%, rgba(9, 31, 55, 1) 100%);
+    radial-gradient(circle at 31% 20%, rgba(146, 226, 255, 0.32), rgba(146, 226, 255, 0) 18%),
+    radial-gradient(circle at 46% 47%, rgba(44, 95, 182, 0.96), rgba(11, 40, 90, 0.99) 55%, rgba(4, 15, 36, 1) 100%);
   box-shadow:
-    inset -34px -34px 64px rgba(3, 16, 32, 0.42),
-    inset 18px 18px 44px rgba(181, 235, 255, 0.16);
+    inset -40px -42px 70px rgba(1, 9, 21, 0.52),
+    inset 16px 14px 36px rgba(167, 214, 255, 0.1);
 }
 
-.home-globe-continent {
+.home-globe-map {
   position: absolute;
-  border-radius: 48% 52% 46% 54%;
-  background:
-    linear-gradient(135deg, rgba(135, 202, 112, 0.98), rgba(46, 131, 79, 0.98));
-  filter: saturate(0.9);
-  box-shadow: inset -10px -8px 18px rgba(19, 86, 49, 0.26);
+  inset: 8%;
+  border-radius: 50%;
+  overflow: hidden;
+  mix-blend-mode: screen;
 }
 
-.home-globe-continent-a {
-  top: 104px;
-  left: 138px;
-  width: 150px;
-  height: 120px;
-  transform: rotate(-18deg);
-  clip-path: polygon(18% 18%, 44% 8%, 70% 18%, 86% 36%, 80% 60%, 66% 72%, 56% 92%, 34% 86%, 24% 68%, 12% 54%, 10% 34%);
+.home-globe-map svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-origin: 50% 50%;
+  animation: globe-rotate 42s ease-in-out infinite alternate;
 }
 
-.home-globe-continent-b {
-  top: 184px;
-  left: 90px;
-  width: 108px;
-  height: 144px;
-  transform: rotate(8deg);
-  clip-path: polygon(34% 6%, 58% 10%, 72% 24%, 76% 48%, 64% 70%, 50% 92%, 28% 84%, 18% 62%, 12% 38%, 18% 18%);
+.home-globe-grid {
+  fill: none;
+  stroke: rgba(182, 222, 255, 0.08);
+  stroke-width: 2;
 }
 
-.home-globe-continent-c {
-  top: 154px;
-  right: 108px;
-  width: 116px;
-  height: 92px;
-  transform: rotate(14deg);
-  clip-path: polygon(14% 24%, 34% 10%, 66% 12%, 88% 30%, 84% 58%, 62% 72%, 34% 80%, 14% 62%, 8% 40%);
+.home-globe-land {
+  fill: url(#globe-land-gradient);
+  filter: saturate(0.88) brightness(0.82);
+}
+
+.home-globe-coast {
+  fill: none;
+  stroke: rgba(201, 238, 183, 0.12);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.home-globe-city-lights circle {
+  fill: rgba(255, 214, 108, 0.95);
+  filter: drop-shadow(0 0 5px rgba(255, 193, 80, 0.9));
+  transform-origin: center;
+}
+
+.home-globe-city-lights .pulse-a {
+  animation: city-light-pulse 3.2s ease-in-out infinite;
+}
+
+.home-globe-city-lights .pulse-b {
+  animation: city-light-pulse 4.1s ease-in-out infinite 0.7s;
+}
+
+.home-globe-city-lights .pulse-c {
+  animation: city-light-pulse 3.7s ease-in-out infinite 1.2s;
+}
+
+.home-globe-marker circle:first-child {
+  fill: rgba(255, 233, 168, 0.96);
+  filter: drop-shadow(0 0 10px rgba(255, 210, 102, 0.84));
+  animation: korea-beacon 3.4s ease-in-out infinite;
+}
+
+.home-globe-marker circle:last-child {
+  fill: none;
+  stroke: rgba(255, 220, 126, 0.24);
+  stroke-width: 7;
+  animation: korea-ring 3.4s ease-out infinite;
+}
+
+.home-globe-land path:nth-child(1) {
+  fill: #9fcb73;
+}
+
+.home-globe-land path:nth-child(2) {
+  fill: #8dc06a;
+}
+
+.home-globe-land path:nth-child(3) {
+  fill: #8ebd67;
+}
+
+.home-globe-land path:nth-child(4),
+.home-globe-land path:nth-child(5),
+.home-globe-land path:nth-child(6),
+.home-globe-land path:nth-child(7),
+.home-globe-land path:nth-child(8),
+.home-globe-land path:nth-child(9),
+.home-globe-land path:nth-child(10),
+.home-globe-land path:nth-child(11) {
+  fill: #7aaa5a;
 }
 
 .home-globe-cloud {
   position: absolute;
+  --cloud-rotate: -10deg;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
-  filter: blur(3px);
+  background: rgba(255, 255, 255, 0.12);
+  filter: blur(5px);
+  animation: globe-cloud-drift 18s ease-in-out infinite;
 }
 
 .home-globe-cloud-a {
-  top: 142px;
-  left: 102px;
-  width: 210px;
-  height: 34px;
-  transform: rotate(-12deg);
+  top: 128px;
+  left: 116px;
+  width: 198px;
+  height: 30px;
+  --cloud-rotate: -10deg;
 }
 
 .home-globe-cloud-b {
-  right: 84px;
-  bottom: 124px;
-  width: 156px;
-  height: 28px;
-  transform: rotate(10deg);
+  right: 92px;
+  bottom: 132px;
+  width: 144px;
+  height: 26px;
+  --cloud-rotate: 10deg;
+  animation-duration: 22s;
+}
+
+.home-globe-cloud-c {
+  top: 246px;
+  left: 126px;
+  width: 112px;
+  height: 24px;
+  --cloud-rotate: 14deg;
+  animation-duration: 20s;
+  animation-delay: 1.5s;
 }
 
 .home-globe-shadow {
@@ -238,8 +305,9 @@
   inset: 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 24% 24%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 18%),
-    radial-gradient(circle at 78% 74%, rgba(6, 19, 34, 0.58), rgba(6, 19, 34, 0) 34%);
+    radial-gradient(circle at 24% 24%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 18%),
+    radial-gradient(circle at 82% 78%, rgba(2, 8, 19, 0.82), rgba(2, 8, 19, 0) 40%);
+  animation: globe-shadow-shift 18s ease-in-out infinite;
 }
 
 .home-hero-panel {
@@ -508,6 +576,101 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes globe-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4px, -4px, 0) scale(1.01);
+  }
+}
+
+@keyframes globe-rotate {
+  0%,
+  100% {
+    transform: rotate(-1.5deg) translateX(0);
+  }
+  50% {
+    transform: rotate(1.8deg) translateX(4px);
+  }
+}
+
+@keyframes globe-light-shift {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(-8px, 6px, 0);
+  }
+}
+
+@keyframes globe-shadow-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(8px, 6px, 0);
+    opacity: 0.92;
+  }
+}
+
+@keyframes globe-cloud-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--cloud-rotate));
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(10px, -6px, 0) rotate(calc(var(--cloud-rotate) + 3deg));
+    opacity: 1;
+  }
+}
+
+@keyframes city-light-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes korea-beacon {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes korea-ring {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.75);
+  }
+  70% {
+    opacity: 0.08;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.28);
   }
 }
 
@@ -2976,6 +3139,13 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home-globe,
+  .home-globe-atmosphere,
+  .home-globe-map svg,
+  .home-globe-shadow,
+  .home-globe-cloud,
+  .home-globe-city-lights circle,
+  .home-globe-marker circle,
   .product-mini-card,
   .product-mini-image-row img,
   .gallery-card-v2,

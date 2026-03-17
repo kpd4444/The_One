@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
-const galleryImageModules = import.meta.glob("../assets/gallery/*.{jpg,jpeg,webp}", {
+const galleryFullImageModules = import.meta.glob("../assets/gallery/*.{jpg,jpeg,webp}", {
   eager: true,
   import: "default",
 });
 
-const imageExtensionPriority = {
-  png: 0,
-  jpg: 1,
-  jpeg: 1,
-  webp: 2,
-};
+const galleryThumbImageModules = import.meta.glob("../assets/gallery/thumbs/*.{jpg,jpeg,webp}", {
+  eager: true,
+  import: "default",
+});
 
 const categoryRules = [
   {
@@ -38,11 +36,6 @@ function extractFileName(path) {
   return fileName.replace(/\.[^.]+$/, "");
 }
 
-function extractExtension(path) {
-  const matched = path.match(/\.([^.]+)$/);
-  return matched ? matched[1].toLowerCase() : "";
-}
-
 function normalizeTitle(fileName) {
   return fileName.replace(/\d+$/, "").trim();
 }
@@ -55,35 +48,25 @@ function resolveCategory(fileName) {
   return matchedRule?.category ?? "기타 프로젝트";
 }
 
-const galleryItems = Array.from(
-  Object.entries(galleryImageModules)
-    .reduce((itemsMap, [path, src]) => {
-      const fileName = extractFileName(path);
-      const extension = extractExtension(path);
-      const existing = itemsMap.get(fileName);
+const galleryThumbMap = new Map(
+  Object.entries(galleryThumbImageModules).map(([path, src]) => [extractFileName(path), src]),
+);
 
-      if (
-        !existing ||
-        (imageExtensionPriority[extension] ?? -1) > (imageExtensionPriority[existing.extension] ?? -1)
-      ) {
-        itemsMap.set(fileName, {
-          title: normalizeTitle(fileName),
-          desc: `${normalizeTitle(fileName)} 시공 및 제작 사례`,
-          category: resolveCategory(fileName),
-          src,
-          fileName,
-          extension,
-        });
-      }
+const galleryItems = Object.entries(galleryFullImageModules)
+  .map(([path, src], index) => {
+    const fileName = extractFileName(path);
+    const title = normalizeTitle(fileName);
 
-      return itemsMap;
-    }, new Map())
-    .values(),
-)
-  .map((item, index) => ({
-    ...item,
-    id: index + 1,
-  }))
+    return {
+      id: index + 1,
+      title,
+      desc: `${title} 시공 및 제작 사례`,
+      category: resolveCategory(fileName),
+      src,
+      thumbSrc: galleryThumbMap.get(fileName) ?? src,
+      fileName,
+    };
+  })
   .sort((a, b) => {
     if (a.category !== b.category) {
       return a.category.localeCompare(b.category, "ko");
@@ -158,7 +141,12 @@ export default function GalleryPage() {
                 onClick={() => setSelectedItem(item)}
               >
                 <figure className="gallery-thumb-v2">
-                  <img src={item.src} alt={item.title} loading="lazy" decoding="async" />
+                  <img
+                    src={item.thumbSrc}
+                    alt={item.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </figure>
                 <div className="gallery-meta-v2">
                   <span>{item.category}</span>
@@ -173,9 +161,22 @@ export default function GalleryPage() {
 
       {selectedItem &&
         createPortal(
-          <div className="gallery-modal-overlay-v2" onClick={() => setSelectedItem(null)} role="presentation">
-            <div className="gallery-modal-v2" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true">
-              <button type="button" className="gallery-modal-close-v2" onClick={() => setSelectedItem(null)}>
+          <div
+            className="gallery-modal-overlay-v2"
+            onClick={() => setSelectedItem(null)}
+            role="presentation"
+          >
+            <div
+              className="gallery-modal-v2"
+              onClick={(event) => event.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+            >
+              <button
+                type="button"
+                className="gallery-modal-close-v2"
+                onClick={() => setSelectedItem(null)}
+              >
                 ×
               </button>
               <div className="gallery-modal-meta-v2">
