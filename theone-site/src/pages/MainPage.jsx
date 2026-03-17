@@ -1,6 +1,7 @@
 import itsImg from "../assets/product-its-enclosure.png";
 import kioskImg from "../assets/product-kiosk-body.png";
 import projectBeamImg from "../assets/product-project-beam-case-a.png";
+import { Link } from "react-router-dom";
 
 const metrics = [
   { label: "진행 프로젝트", value: "210+" },
@@ -85,12 +86,12 @@ export default function MainPage() {
                 케이스, ITS 장비 함체 등 각종 장비 보조 케이스를 맞춤 설계 및 제작하는 전문 업체입니다.
               </p>
               <div className="home-hero-cta">
-                <a className="btn btn-primary" href="/products">
+                <Link className="btn btn-primary" to="/products">
                   제품 소개 보기
-                </a>
-                <a className="btn btn-outline" href="/support#inquiry">
+                </Link>
+                <Link className="btn btn-outline" to="/support?tab=inquiry">
                   견적 문의하기
-                </a>
+                </Link>
               </div>
 
               <div className="home-product-tags" aria-label="주요 제작 품목">
@@ -208,9 +209,9 @@ export default function MainPage() {
             <p className="home-kicker">Start Your Project</p>
             <h2>장비 사양과 설치 환경만 정리되어 있어도 맞춤형 케이스 방향부터 함께 잡아드립니다.</h2>
           </div>
-          <a className="btn btn-primary" href="/support#inquiry">
+          <Link className="btn btn-primary" to="/support?tab=inquiry">
             상담 시작하기
-          </a>
+          </Link>
         </div>
       </section>
     </main>
