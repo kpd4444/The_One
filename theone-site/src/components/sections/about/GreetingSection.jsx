@@ -1,4 +1,4 @@
-import heroImage from "../../../assets/about-intro-visual.png";
+import heroImage from "../../../assets/about-intro-visual.jpg";
 
 export default function GreetingSection() {
   return (

@@ -1,13 +1,13 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import itsImg from "../assets/product-its-enclosure.png";
-import kioskImg from "../assets/product-kiosk-body.png";
-import projectBeamAImg from "../assets/product-project-beam-case-a.png";
-import projectBeamBImg from "../assets/product-project-beam-case-b.png";
-import gateLprAImg from "../assets/product-gate-lpr-a.png";
-import gateLprBImg from "../assets/product-gate-lpr-b.png";
-import telecomImg from "../assets/product-telecom-enclosure.png";
-import housingImg from "../assets/product-housing.png";
+import itsImg from "../assets/product-its-enclosure.jpg";
+import kioskImg from "../assets/product-kiosk-body.jpg";
+import projectBeamAImg from "../assets/product-project-beam-case-a.jpg";
+import projectBeamBImg from "../assets/product-project-beam-case-b.jpg";
+import gateLprAImg from "../assets/product-gate-lpr-a.jpg";
+import gateLprBImg from "../assets/product-gate-lpr-b.jpg";
+import telecomImg from "../assets/product-telecom-enclosure.jpg";
+import housingImg from "../assets/product-housing.jpg";
 
 const products = [
   {
@@ -78,7 +78,6 @@ export default function ProductsPage() {
   const { pathname, search } = useLocation();
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
   const currentTab = searchParams.get("tab") === "apply" ? "apply" : "feature";
-  const [activeProductId, setActiveProductId] = useState(products[0].id);
   const [modalProduct, setModalProduct] = useState(null);
 
   useEffect(() => {
@@ -151,19 +150,14 @@ export default function ProductsPage() {
                 <article key={product.id} className="product-mini-card">
                   <button
                     type="button"
-                    className={`product-mini-link ${
-                      activeProductId === product.id ? "active" : ""
-                    }`.trim()}
-                    onClick={() => {
-                      setActiveProductId(product.id);
-                      setModalProduct(product);
-                    }}
+                    className="product-mini-link"
+                    onClick={() => setModalProduct(product)}
                   >
                     <div className="product-mini-top">{product.name}</div>
                     <div className="product-mini-image-row">
                       {product.images.slice(0, 1).map((imgSrc, idx) => (
                         <figure key={`${product.id}-${idx}`}>
-                          <img src={imgSrc} alt={product.name} loading="lazy" />
+                          <img src={imgSrc} alt={product.name} loading="lazy" decoding="async" />
                         </figure>
                       ))}
                     </div>
@@ -198,7 +192,7 @@ export default function ProductsPage() {
             </div>
 
             <figure className="product-modal-image">
-              <img src={modalProduct.images[0]} alt={modalProduct.name} loading="lazy" />
+              <img src={modalProduct.images[0]} alt={modalProduct.name} loading="lazy" decoding="async" />
             </figure>
           </div>
         </div>

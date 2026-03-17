@@ -1,6 +1,6 @@
-import itsImg from "../assets/product-its-enclosure.png";
-import kioskImg from "../assets/product-kiosk-body.png";
-import projectBeamImg from "../assets/product-project-beam-case-a.png";
+import itsImg from "../assets/product-its-enclosure.jpg";
+import kioskImg from "../assets/product-kiosk-body.jpg";
+import projectBeamImg from "../assets/product-project-beam-case-a.jpg";
 import { Link } from "react-router-dom";
 
 const metrics = [
@@ -192,7 +192,7 @@ export default function MainPage() {
           <div className="home-project-grid">
             {featuredProjects.map((project) => (
               <article key={project.title} className="home-project-card">
-                <img src={project.image} alt={project.title} loading="lazy" />
+                <img src={project.image} alt={project.title} loading="lazy" decoding="async" />
                 <div className="home-project-overlay">
                   <span>{project.category}</span>
                   <h3>{project.title}</h3>

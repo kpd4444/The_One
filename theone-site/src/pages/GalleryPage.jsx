@@ -1,10 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
-const galleryImageModules = import.meta.glob("../assets/gallery/*.{png,jpg,jpeg,webp}", {
+const galleryImageModules = import.meta.glob("../assets/gallery/*.{jpg,jpeg,webp}", {
   eager: true,
   import: "default",
 });
+
+const imageExtensionPriority = {
+  png: 0,
+  jpg: 1,
+  jpeg: 1,
+  webp: 2,
+};
 
 const categoryRules = [
   {
@@ -31,6 +38,11 @@ function extractFileName(path) {
   return fileName.replace(/\.[^.]+$/, "");
 }
 
+function extractExtension(path) {
+  const matched = path.match(/\.([^.]+)$/);
+  return matched ? matched[1].toLowerCase() : "";
+}
+
 function normalizeTitle(fileName) {
   return fileName.replace(/\d+$/, "").trim();
 }
@@ -43,19 +55,35 @@ function resolveCategory(fileName) {
   return matchedRule?.category ?? "기타 프로젝트";
 }
 
-const galleryItems = Object.entries(galleryImageModules)
-  .map(([path, src], index) => {
-    const fileName = extractFileName(path);
+const galleryItems = Array.from(
+  Object.entries(galleryImageModules)
+    .reduce((itemsMap, [path, src]) => {
+      const fileName = extractFileName(path);
+      const extension = extractExtension(path);
+      const existing = itemsMap.get(fileName);
 
-    return {
-      id: index + 1,
-      title: normalizeTitle(fileName),
-      desc: `${normalizeTitle(fileName)} 시공 및 제작 사례`,
-      category: resolveCategory(fileName),
-      src,
-      fileName,
-    };
-  })
+      if (
+        !existing ||
+        (imageExtensionPriority[extension] ?? -1) > (imageExtensionPriority[existing.extension] ?? -1)
+      ) {
+        itemsMap.set(fileName, {
+          title: normalizeTitle(fileName),
+          desc: `${normalizeTitle(fileName)} 시공 및 제작 사례`,
+          category: resolveCategory(fileName),
+          src,
+          fileName,
+          extension,
+        });
+      }
+
+      return itemsMap;
+    }, new Map())
+    .values(),
+)
+  .map((item, index) => ({
+    ...item,
+    id: index + 1,
+  }))
   .sort((a, b) => {
     if (a.category !== b.category) {
       return a.category.localeCompare(b.category, "ko");
@@ -130,7 +158,7 @@ export default function GalleryPage() {
                 onClick={() => setSelectedItem(item)}
               >
                 <figure className="gallery-thumb-v2">
-                  <img src={item.src} alt={item.title} loading="lazy" />
+                  <img src={item.src} alt={item.title} loading="lazy" decoding="async" />
                 </figure>
                 <div className="gallery-meta-v2">
                   <span>{item.category}</span>
@@ -146,7 +174,7 @@ export default function GalleryPage() {
       {selectedItem &&
         createPortal(
           <div className="gallery-modal-overlay-v2" onClick={() => setSelectedItem(null)} role="presentation">
-            <div className="gallery-modal-v2" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="gallery-modal-v2" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true">
               <button type="button" className="gallery-modal-close-v2" onClick={() => setSelectedItem(null)}>
                 ×
               </button>
@@ -156,7 +184,7 @@ export default function GalleryPage() {
                 <p>{selectedItem.desc}</p>
               </div>
               <figure className="gallery-modal-image-v2">
-                <img src={selectedItem.src} alt={selectedItem.title} />
+                <img src={selectedItem.src} alt={selectedItem.title} decoding="async" />
               </figure>
             </div>
           </div>,
