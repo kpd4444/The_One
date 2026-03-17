@@ -1429,14 +1429,13 @@ main {
 
 @media (max-width: 900px) {
   .history-v2 {
-    padding-top: 20px;
-    padding-left: 26px;
+    padding-top: 24px;
   }
 
   .history-v2::before {
-    left: 14px;
-    top: 12px;
-    bottom: 0;
+    left: 28px;
+    top: 22px;
+    bottom: 8px;
     transform: none;
   }
 
@@ -1445,12 +1444,13 @@ main {
     transform: none;
     width: 70px;
     height: 70px;
-    margin: 0 0 12px -20px;
+    margin: 0 0 14px;
     font-size: 0.74rem;
   }
 
   .history-year-divider {
     justify-content: flex-start;
+    padding-left: 56px;
     margin-bottom: 10px;
   }
 
@@ -1460,18 +1460,20 @@ main {
 
   .history-event {
     grid-template-columns: 1fr;
-    padding-left: 24px;
+    padding-left: 56px;
+    box-sizing: border-box;
   }
 
   .history-dot {
-    left: 14px;
+    left: 22px;
     transform: none;
   }
 
   .history-event.right .history-card,
   .history-event.left .history-card {
     grid-column: 1;
-    width: 100%;
+    width: auto;
+    max-width: none;
     margin: 0;
     justify-self: stretch;
   }
