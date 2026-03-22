@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="footer-info">
           <div>
             <span>주소</span>
-            <strong>경기도 김포시 대곶면 상마신기로 100</strong>
+            <strong>경기도 김포시 대곶면 오니산로 100</strong>
           </div>
           <div>
             <span>연락처</span>

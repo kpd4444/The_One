@@ -10,7 +10,7 @@
 
           <div className="org-ceo-card">
             <span className="org-role">대표이사</span>
-            <strong>조성록</strong>
+            <strong>대표이사</strong>
           </div>
 
           <div className="org-link-line" aria-hidden="true" />
