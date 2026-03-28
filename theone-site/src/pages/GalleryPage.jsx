@@ -13,12 +13,12 @@ const galleryThumbImageModules = import.meta.glob("../assets/gallery/thumbs/*.{j
 
 const categoryRules = [
   {
-    category: "주차 정산·키오스크",
+    category: "정산기·키오스크",
     keywords: ["정산기", "키오스크", "차단기"],
   },
   {
     category: "ITS·교통 시스템",
-    keywords: ["ITS", "교통", "스마트교차로", "BIT", "LPR"],
+    keywords: ["ITS", "교통", "스마트교차로", "BIT", "bit", "LPR"],
   },
   {
     category: "함체·하우징",
@@ -27,6 +27,44 @@ const categoryRules = [
   {
     category: "프로젝트 사례",
     keywords: ["부천시", "현대건설", "미륵사지석탑", "수출용", "파이프라인"],
+  },
+];
+
+const additionalGalleryEntries = [
+  {
+    fileName: "이름없음",
+    title: "이름없음",
+    category: "기타 프로젝트",
+  },
+  {
+    fileName: "이름없음1",
+    title: "이름없음",
+    category: "기타 프로젝트",
+  },
+  {
+    fileName: "이름없음2",
+    title: "이름없음",
+    category: "기타 프로젝트",
+  },
+  {
+    fileName: "이름없음3",
+    title: "이름없음",
+    category: "기타 프로젝트",
+  },
+  {
+    fileName: "이름없음4",
+    title: "이름없음",
+    category: "기타 프로젝트",
+  },
+  {
+    fileName: "bit버스 안내표지판",
+    title: "BIT 버스 안내 표지판",
+    category: "ITS·교통 시스템",
+  },
+  {
+    fileName: "대우 푸르지오LPR",
+    title: "대우 푸르지오 LPR",
+    category: "ITS·교통 시스템",
   },
 ];
 
@@ -48,32 +86,53 @@ function resolveCategory(fileName) {
   return matchedRule?.category ?? "기타 프로젝트";
 }
 
+const galleryFullMap = new Map(
+  Object.entries(galleryFullImageModules).map(([path, src]) => [extractFileName(path), src]),
+);
+
 const galleryThumbMap = new Map(
   Object.entries(galleryThumbImageModules).map(([path, src]) => [extractFileName(path), src]),
 );
 
-const galleryItems = Object.entries(galleryFullImageModules)
-  .map(([path, src], index) => {
-    const fileName = extractFileName(path);
-    const title = normalizeTitle(fileName);
+const baseGalleryItems = Array.from(galleryFullMap.entries()).map(([fileName, src], index) => {
+  const title = normalizeTitle(fileName);
+
+  return {
+    id: `base-${index + 1}`,
+    title,
+    desc: `${title} 시공 및 제작 사례`,
+    category: resolveCategory(fileName),
+    src,
+    thumbSrc: galleryThumbMap.get(fileName) ?? src,
+    fileName,
+  };
+});
+
+const existingFileNames = new Set(baseGalleryItems.map((item) => item.fileName));
+
+const additionalGalleryItems = additionalGalleryEntries
+  .filter((item) => !existingFileNames.has(item.fileName) && galleryThumbMap.has(item.fileName))
+  .map((item, index) => {
+    const imageSrc = galleryThumbMap.get(item.fileName);
 
     return {
-      id: index + 1,
-      title,
-      desc: `${title} 시공 및 제작 사례`,
-      category: resolveCategory(fileName),
-      src,
-      thumbSrc: galleryThumbMap.get(fileName) ?? src,
-      fileName,
+      id: `extra-${index + 1}`,
+      title: item.title,
+      desc: `${item.title} 시공 및 제작 사례`,
+      category: item.category,
+      src: imageSrc,
+      thumbSrc: imageSrc,
+      fileName: item.fileName,
     };
-  })
-  .sort((a, b) => {
-    if (a.category !== b.category) {
-      return a.category.localeCompare(b.category, "ko");
-    }
-
-    return a.fileName.localeCompare(b.fileName, "ko", { numeric: true });
   });
+
+const galleryItems = [...baseGalleryItems, ...additionalGalleryItems].sort((a, b) => {
+  if (a.category !== b.category) {
+    return a.category.localeCompare(b.category, "ko");
+  }
+
+  return a.fileName.localeCompare(b.fileName, "ko", { numeric: true });
+});
 
 const categories = ["전체", ...new Set(galleryItems.map((item) => item.category))];
 
@@ -112,7 +171,7 @@ export default function GalleryPage() {
           <header className="gallery-hero-v2">
             <p className="gallery-kicker-v2">GALLERY</p>
             <h1>갤러리</h1>
-            <p>더원산업의 주요 제작품과 시공 사례를 사진으로 확인하실 수 있습니다.</p>
+            <p>더원산업의 주요 제작물과 시공 사례를 사진으로 확인하실 수 있습니다.</p>
           </header>
 
           <div className="gallery-filter-row" role="tablist" aria-label="갤러리 분류">
@@ -176,6 +235,7 @@ export default function GalleryPage() {
                 type="button"
                 className="gallery-modal-close-v2"
                 onClick={() => setSelectedItem(null)}
+                aria-label="갤러리 닫기"
               >
                 ×
               </button>

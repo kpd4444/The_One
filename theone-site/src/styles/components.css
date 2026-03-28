@@ -130,10 +130,11 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 34%),
-    radial-gradient(circle at 46% 46%, rgba(66, 132, 214, 0.12), rgba(66, 132, 214, 0) 62%);
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 16%, rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle at 52% 52%, rgba(73, 144, 223, 0.12), rgba(73, 144, 223, 0) 64%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset -24px -30px 48px rgba(1, 9, 24, 0.2),
     0 40px 100px rgba(2, 10, 24, 0.44);
   overflow: hidden;
   animation: globe-drift 28s ease-in-out infinite;
@@ -158,9 +159,9 @@
   inset: 0;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 24% 21%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 16%),
-    radial-gradient(circle at 54% 46%, rgba(50, 130, 215, 0.18), rgba(50, 130, 215, 0) 60%),
-    radial-gradient(circle at 76% 80%, rgba(5, 18, 39, 0.82), rgba(5, 18, 39, 0) 48%);
+    radial-gradient(circle at 24% 22%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 14%),
+    radial-gradient(circle at 45% 45%, rgba(92, 166, 247, 0.16), rgba(92, 166, 247, 0) 55%),
+    radial-gradient(circle at 85% 78%, rgba(4, 14, 31, 0.88), rgba(4, 14, 31, 0) 42%);
   animation: globe-light-shift 16s ease-in-out infinite;
 }
 
@@ -169,11 +170,24 @@
   inset: 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 31% 20%, rgba(146, 226, 255, 0.32), rgba(146, 226, 255, 0) 18%),
-    radial-gradient(circle at 46% 47%, rgba(44, 95, 182, 0.96), rgba(11, 40, 90, 0.99) 55%, rgba(4, 15, 36, 1) 100%);
+    radial-gradient(circle at 32% 22%, rgba(157, 233, 255, 0.46), rgba(157, 233, 255, 0) 16%),
+    radial-gradient(circle at 42% 34%, rgba(79, 159, 237, 0.22), rgba(79, 159, 237, 0) 32%),
+    radial-gradient(circle at 48% 46%, rgba(31, 93, 185, 0.98), rgba(10, 48, 111, 0.98) 54%, rgba(4, 18, 44, 1) 100%);
   box-shadow:
-    inset -40px -42px 70px rgba(1, 9, 21, 0.52),
-    inset 16px 14px 36px rgba(167, 214, 255, 0.1);
+    inset -56px -48px 82px rgba(2, 10, 23, 0.62),
+    inset 18px 14px 36px rgba(167, 214, 255, 0.12);
+}
+
+.home-globe-specular {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 18%, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.12) 10%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 40% 30%, rgba(173, 229, 255, 0.18), rgba(173, 229, 255, 0) 20%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .home-globe-map {
@@ -181,7 +195,7 @@
   inset: 8%;
   border-radius: 50%;
   overflow: hidden;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
 }
 
 .home-globe-map svg {
@@ -194,20 +208,33 @@
 
 .home-globe-grid {
   fill: none;
-  stroke: rgba(182, 222, 255, 0.08);
-  stroke-width: 2;
+  stroke: rgba(164, 214, 255, 0.07);
+  stroke-width: 1.5;
 }
 
 .home-globe-land {
   fill: url(#globe-land-gradient);
-  filter: saturate(0.88) brightness(0.82);
+  filter: saturate(0.96) brightness(0.9);
+}
+
+.home-globe-land-shade {
+  fill: url(#globe-land-shadow);
+  mix-blend-mode: multiply;
 }
 
 .home-globe-coast {
   fill: none;
-  stroke: rgba(201, 238, 183, 0.12);
-  stroke-width: 1.8;
+  stroke: rgba(203, 238, 187, 0.42);
+  stroke-width: 1.5;
   stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.home-globe-cloud-band {
+  fill: url(#globe-cloud-gradient);
+  opacity: 0.34;
+  filter: blur(14px);
 }
 
 .home-globe-city-lights circle {
@@ -242,15 +269,15 @@
 }
 
 .home-globe-land path:nth-child(1) {
-  fill: #9fcb73;
+  fill: #86bf62;
 }
 
 .home-globe-land path:nth-child(2) {
-  fill: #8dc06a;
+  fill: #7fb45b;
 }
 
 .home-globe-land path:nth-child(3) {
-  fill: #8ebd67;
+  fill: #709f4f;
 }
 
 .home-globe-land path:nth-child(4),
@@ -258,18 +285,16 @@
 .home-globe-land path:nth-child(6),
 .home-globe-land path:nth-child(7),
 .home-globe-land path:nth-child(8),
-.home-globe-land path:nth-child(9),
-.home-globe-land path:nth-child(10),
-.home-globe-land path:nth-child(11) {
-  fill: #7aaa5a;
+.home-globe-land path:nth-child(9) {
+  fill: #5c8742;
 }
 
 .home-globe-cloud {
   position: absolute;
   --cloud-rotate: -10deg;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  filter: blur(5px);
+  background: rgba(255, 255, 255, 0.15);
+  filter: blur(8px);
   animation: globe-cloud-drift 18s ease-in-out infinite;
 }
 
@@ -305,8 +330,8 @@
   inset: 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 24% 24%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 18%),
-    radial-gradient(circle at 82% 78%, rgba(2, 8, 19, 0.82), rgba(2, 8, 19, 0) 40%);
+    radial-gradient(circle at 24% 24%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 18%),
+    radial-gradient(circle at 80% 74%, rgba(2, 8, 19, 0.92), rgba(2, 8, 19, 0.22) 34%, rgba(2, 8, 19, 0) 52%);
   animation: globe-shadow-shift 18s ease-in-out infinite;
 }
 
