@@ -65,7 +65,7 @@ export default function MainPage() {
                       <radialGradient id="globe-cloud-gradient" cx="50%" cy="50%" r="50%">
                         <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
                         <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                      </linearGradient>
+                      </radialGradient>
                     </defs>
                     <g className="home-globe-grid">
                       <ellipse cx="500" cy="500" rx="360" ry="360" />
