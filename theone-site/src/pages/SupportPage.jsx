@@ -45,7 +45,7 @@ export default function SupportPage() {
     setInquiryStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/theone4123@naver.com", {
+      const response = await fetch("https://formsubmit.co/ajax/theone412@naver.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
