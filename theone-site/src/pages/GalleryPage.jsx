@@ -68,6 +68,11 @@ const additionalGalleryEntries = [
   },
 ];
 
+const titleOverrides = {
+  "32인치 사전무인 정산기 BF 21.5인치 옥외용 정산기": "32인치 사전무인 정산기",
+  "32인치 사전무인 정산기 BF 21.5인치 옥외용 정산기2": "BF 21.5인치 정산기",
+};
+
 const loadedFullImageCache = new Map();
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 2.4;
@@ -100,7 +105,7 @@ const galleryFullLoaderMap = new Map(
 );
 
 const baseGalleryItems = Array.from(galleryFullLoaderMap.keys()).map((fileName, index) => {
-  const title = normalizeTitle(fileName);
+  const title = titleOverrides[fileName] ?? normalizeTitle(fileName);
   const thumbSrc = galleryThumbMap.get(fileName);
 
   return {
