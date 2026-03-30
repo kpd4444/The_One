@@ -323,6 +323,12 @@ export default function GalleryPage() {
 
       <section className="section">
         <div className="container">
+          <div className="about-breadcrumb">
+            <span>HOME</span>
+            <span className="about-crumb-sep">&gt;</span>
+            <strong>갤러리</strong>
+          </div>
+
           <header className="gallery-hero-v2">
             <p className="gallery-kicker-v2">GALLERY</p>
             <h1>갤러리</h1>
