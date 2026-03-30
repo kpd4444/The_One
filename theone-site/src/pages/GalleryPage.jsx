@@ -32,29 +32,29 @@ const categoryRules = [
 
 const additionalGalleryEntries = [
   {
-    fileName: "이름없음",
-    title: "이름없음",
-    category: "기타 프로젝트",
+    fileName: "aisafety키오스크",
+    title: "AI Safety 키오스크",
+    category: "정산기·키오스크",
   },
   {
-    fileName: "이름없음1",
-    title: "이름없음",
-    category: "기타 프로젝트",
+    fileName: "스마트교차로함체",
+    title: "스마트 교차로 함체",
+    category: "ITS·교통 시스템",
   },
   {
-    fileName: "이름없음2",
-    title: "이름없음",
-    category: "기타 프로젝트",
+    fileName: "정보수집함체",
+    title: "정보 수집 함체",
+    category: "함체·하우징",
   },
   {
-    fileName: "이름없음3",
-    title: "이름없음",
-    category: "기타 프로젝트",
+    fileName: "칠러케이스",
+    title: "칠러 케이스",
+    category: "함체·하우징",
   },
   {
-    fileName: "이름없음4",
-    title: "이름없음",
-    category: "기타 프로젝트",
+    fileName: "통신함체1",
+    title: "통신 함체",
+    category: "함체·하우징",
   },
   {
     fileName: "bit버스 안내표지판",

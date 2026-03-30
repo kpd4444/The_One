@@ -81,7 +81,7 @@ export default function LocationSection() {
               <article className="location-info-card">
                 <span className="location-label">대표 연락처</span>
                 <h3>{COMPANY_PHONE}</h3>
-                <p>평일 09:00 ~ 18:00 (주말/공휴일 휴무)</p>
+                <p>평일 08:30 ~ 17:30 (주말/공휴일 휴무)</p>
               </article>
 
               <article className="location-info-card">
