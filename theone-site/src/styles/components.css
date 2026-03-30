@@ -3273,11 +3273,9 @@ main {
   margin: 0;
   flex: 1 1 auto;
   min-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   padding: 0 20px 20px;
-  overflow: hidden;
+  overflow: auto;
   background: #eef3f9;
   position: relative;
 }
@@ -3292,9 +3290,14 @@ main {
 }
 
 .gallery-modal-image-stage-v2 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: fit-content;
+  min-width: 100%;
+  margin: 0 auto;
   max-width: 100%;
-  max-height: calc(100dvh - 260px);
-  overflow: auto;
+  min-height: 100%;
   cursor: default;
 }
 
