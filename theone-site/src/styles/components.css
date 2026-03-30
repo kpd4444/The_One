@@ -55,7 +55,7 @@
   line-height: 1.1;
   letter-spacing: -0.05em;
   text-wrap: balance;
-  max-width: 11.8ch;
+  max-width: 14.2ch;
   color: #f7f9fc;
   text-shadow: 0 8px 24px rgba(5, 12, 24, 0.18);
 }
@@ -376,7 +376,7 @@
 
 .home-hero-panel {
   position: absolute;
-  right: 0;
+  right: -96px;
   bottom: 18px;
   width: min(310px, 72%);
   background: rgba(248, 251, 255, 0.92);

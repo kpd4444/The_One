@@ -1,4 +1,4 @@
-import itsImg from "../assets/product-its-enclosure.jpg";
+﻿import itsImg from "../assets/product-its-enclosure.jpg";
 import kioskImg from "../assets/product-kiosk-body.jpg";
 import projectBeamImg from "../assets/product-project-beam-case-a.jpg";
 
@@ -9,9 +9,9 @@ export const metrics = [
 ];
 
 export const productGroups = [
-  "무인차량 번호 인식 카메라 및 케이스",
-  "아파트 입구 로비폰",
-  "무인과속 카메라 케이스",
+  "각종 하우징 및 케이스",
+  "무인 정산기 및 로비폰",
+  "통신 함체(컨트롤 함체)",
   "프로젝트 빔 케이스",
   "ITS 장비 함체",
 ];
@@ -22,8 +22,8 @@ export const strengths = [
     desc: "구성 장비의 배치, 방수, 방열, 유지보수 동선까지 고려해 현장 환경에 맞는 케이스와 함체를 설계합니다.",
   },
   {
-    title: "가공부터 조립까지 일관 대응",
-    desc: "절곡, 용접, 표면 처리, 조립까지 이어지는 제작 과정을 내부 기준으로 관리해 안정적인 품질을 유지합니다.",
+    title: "가공부터 조립까지 일괄 대응",
+    desc: "절단, 용접, 표면 처리, 조립까지 이어지는 제작 과정을 내부 기준으로 관리해 안정적인 품질을 유지합니다.",
   },
   {
     title: "장비 수명과 안정성 중심",
@@ -45,7 +45,7 @@ export const processSteps = [
   {
     step: "03",
     title: "제작 및 출하 검수",
-    desc: "가공과 조립 이후 최종 상태를 점검하고, 안정적인 납품 기준으로 출하합니다.",
+    desc: "가공과 조립 이후 최종 상태를 점검하고, 안정적인 출하 기준으로 마무리합니다.",
   },
 ];
 

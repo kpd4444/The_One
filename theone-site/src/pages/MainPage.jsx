@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
 import {
@@ -37,12 +37,12 @@ export default function MainPage() {
   return (
     <main className="home-page">
       <Seo
-        title="정밀 케이스·함체 설계 및 제작"
-        description="더원산업은 정밀 케이스, 함체, 키오스크, ITS 장비 하우징을 설계·제작하는 산업 설비 전문 기업입니다."
+        title="더원산업 | 장비 보호 케이스 및 함체 설계·제작"
+        description="더원산업은 장비 보호 케이스, 함체, 키오스크, ITS 장비 하우징을 설계·제작하는 산업 장비 전문 기업입니다."
         path="/"
         keywords={[
           "더원산업",
-          "정밀 케이스 제작",
+          "장비 보호 케이스 제작",
           "산업용 함체",
           "키오스크 제작",
           "ITS 장비 하우징",
@@ -85,14 +85,14 @@ export default function MainPage() {
             <div className="home-hero-copy">
               <p className="home-kicker">THE ONE INDUSTRY</p>
               <h1>
-                <span className="home-hero-title-line">장비를 보호하는</span>
-                <span className="home-hero-title-line">케이스와 함체를 더</span>
-                <span className="home-hero-title-line">정교하게 만듭니다.</span>
+                <span className="home-hero-title-line">우리 더원 산업은</span>
+                <span className="home-hero-title-line">세계 최고의 품질과</span>
+                <span className="home-hero-title-line">서비스를 지향합니다.</span>
               </h1>
               <p className="home-hero-lead">
                 더원산업은 무인차량 번호 인식 카메라 케이스, 로비폰, 무인과속 카메라 케이스,
-                프로젝트 빔 케이스, ITS 장비 함체 등 각종 장비 보조 케이스를 맞춤 설계 및
-                제작하는 전문 업체입니다.
+                프로젝트 빔 케이스, ITS 장비 함체 등 각종 장비 보호 케이스를 맞춤 설계 및 제작하는
+                전문 업체입니다.
               </p>
 
               <div className="home-hero-cta">
@@ -233,7 +233,7 @@ export default function MainPage() {
           <div className="home-trust-strip">
             <span>맞춤 케이스·함체 설계</span>
             <span>장비 보호와 안정성 중심 제작</span>
-            <span>실내·야외 설치 환경 대응</span>
+            <span>실내·실외 설치 환경 대응</span>
           </div>
         </div>
       </section>
@@ -312,3 +312,4 @@ export default function MainPage() {
     </main>
   );
 }
+
