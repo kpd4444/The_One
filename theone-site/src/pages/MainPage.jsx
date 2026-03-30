@@ -118,20 +118,24 @@ export default function MainPage() {
                   <div className="home-orbit home-orbit-b" />
                   <div className="home-orbit home-orbit-c" />
                   <div className="home-globe">
+                    <div className="home-globe-aura" />
                     <div className="home-globe-atmosphere" />
+                    <div className="home-globe-rim" />
                     <div className="home-globe-ocean" />
                     <div className="home-globe-specular" />
                     <div className="home-globe-map">
                       <svg viewBox="0 0 1000 1000" aria-hidden="true">
                         <defs>
-                          <radialGradient id="globe-land-gradient" cx="42%" cy="36%" r="78%">
-                            <stop offset="0%" stopColor="#8cc56b" />
-                            <stop offset="45%" stopColor="#5c9b4f" />
-                            <stop offset="100%" stopColor="#355f34" />
+                          <radialGradient id="globe-land-gradient" cx="34%" cy="28%" r="86%">
+                            <stop offset="0%" stopColor="#b6e28b" />
+                            <stop offset="28%" stopColor="#8dc969" />
+                            <stop offset="62%" stopColor="#5f9f49" />
+                            <stop offset="100%" stopColor="#2f5f30" />
                           </radialGradient>
                           <linearGradient id="globe-land-shadow" x1="20%" y1="15%" x2="85%" y2="90%">
-                            <stop offset="0%" stopColor="rgba(255,255,255,0.24)" />
-                            <stop offset="100%" stopColor="rgba(8,24,18,0.46)" />
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
+                            <stop offset="42%" stopColor="rgba(42,84,48,0.08)" />
+                            <stop offset="100%" stopColor="rgba(8,24,18,0.52)" />
                           </linearGradient>
                           <radialGradient id="globe-cloud-gradient" cx="50%" cy="50%" r="50%">
                             <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
