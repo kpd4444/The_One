@@ -1,8 +1,12 @@
-﻿import { Link, useLocation } from "react-router-dom";
-import GreetingSection from "../components/sections/about/GreetingSection";
-import HistorySection from "../components/sections/about/HistorySection";
-import OrgChartSection from "../components/sections/about/OrgChartSection";
-import LocationSection from "../components/sections/about/LocationSection";
+﻿import { Suspense, lazy, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
+import PageLoader from "../components/PageLoader";
+import Seo from "../components/Seo";
+
+const GreetingSection = lazy(() => import("../components/sections/about/GreetingSection"));
+const HistorySection = lazy(() => import("../components/sections/about/HistorySection"));
+const OrgChartSection = lazy(() => import("../components/sections/about/OrgChartSection"));
+const LocationSection = lazy(() => import("../components/sections/about/LocationSection"));
 
 const aboutSections = [
   {
@@ -31,13 +35,22 @@ export default function AboutPage() {
   const { hash } = useLocation();
   const activeId = hash ? hash.replace("#", "") : "greeting";
 
-  const activeSection =
-    aboutSections.find((section) => section.id === activeId) ?? aboutSections[0];
+  const activeSection = useMemo(
+    () => aboutSections.find((section) => section.id === activeId) ?? aboutSections[0],
+    [activeId],
+  );
 
   const ActiveComponent = activeSection.component;
 
   return (
     <main className="about-page section">
+      <Seo
+        title={`회사소개 - ${activeSection.menu}`}
+        description={`더원산업의 ${activeSection.menu} 정보를 확인할 수 있는 회사소개 페이지입니다.`}
+        path={`/about#${activeSection.id}`}
+        keywords={["더원산업", "회사소개", activeSection.menu, "함체 제작 기업"]}
+      />
+
       <div className="container">
         <div className="about-breadcrumb">
           <span>HOME</span>
@@ -70,7 +83,9 @@ export default function AboutPage() {
             </header>
 
             <div className="about-section-panel">
-              <ActiveComponent />
+              <Suspense fallback={<PageLoader label="섹션을 불러오는 중입니다." />}>
+                <ActiveComponent />
+              </Suspense>
             </div>
           </section>
         </div>

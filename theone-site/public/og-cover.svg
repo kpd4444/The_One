@@ -1,0 +1,43 @@
+﻿<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#081524"/>
+  <rect x="36" y="36" width="1128" height="558" rx="36" fill="url(#bg)" stroke="rgba(255,255,255,0.16)"/>
+  <circle cx="958" cy="148" r="190" fill="url(#glow)" fill-opacity="0.8"/>
+  <circle cx="1038" cy="500" r="110" fill="#75B7E8" fill-opacity="0.16"/>
+  <circle cx="930" cy="460" r="58" fill="#D9EEFF" fill-opacity="0.12"/>
+  <g filter="url(#shadow)">
+    <rect x="92" y="102" width="158" height="158" rx="36" fill="#102645"/>
+    <rect x="118" y="130" width="106" height="98" rx="24" fill="url(#panel)"/>
+    <path d="M140 156H202" stroke="#F8FBFF" stroke-width="12" stroke-linecap="round"/>
+    <path d="M171 156V208" stroke="#D6E6F8" stroke-width="12" stroke-linecap="round"/>
+    <path d="M140 208H202" stroke="#7EC0EE" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <text x="92" y="356" fill="#7EC0EE" font-size="28" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif" letter-spacing="4">THE ONE INDUSTRY</text>
+  <text x="92" y="430" fill="#F8FBFF" font-size="68" font-weight="700" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">정밀 케이스·함체</text>
+  <text x="92" y="506" fill="#F8FBFF" font-size="68" font-weight="700" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">설계 및 제작</text>
+  <text x="92" y="558" fill="#BCD0E6" font-size="28" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">키오스크 · ITS 장비 하우징 · 산업용 커스텀 하우징</text>
+  <defs>
+    <linearGradient id="bg" x1="104" y1="72" x2="1092" y2="594" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102645"/>
+      <stop offset="0.54" stop-color="#163154"/>
+      <stop offset="1" stop-color="#0A1626"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="118" y1="130" x2="224" y2="228" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#24497B"/>
+      <stop offset="1" stop-color="#19345C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(958 148) rotate(90) scale(190)">
+      <stop stop-color="#7EC0EE"/>
+      <stop offset="1" stop-color="#7EC0EE" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="74" y="88" width="194" height="194" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="8"/>
+      <feGaussianBlur stdDeviation="9"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0156863 0 0 0 0 0.0705882 0 0 0 0 0.133333 0 0 0 0.28 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_2"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_2" result="shape"/>
+    </filter>
+  </defs>
+</svg>

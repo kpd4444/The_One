@@ -4,18 +4,28 @@
 }
 
 .route-transition {
-  animation: route-fade-in 320ms ease both;
+  animation: route-settle-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center top;
+  will-change: opacity, transform, filter;
 }
 
-@keyframes route-fade-in {
+@keyframes route-settle-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(22px) scale(0.988);
+    filter: blur(10px);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 

@@ -4,16 +4,13 @@ import Footer from "../components/Footer";
 import ScrollToHash from "../components/ScrollToHash";
 
 export default function Layout() {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   return (
     <>
       <ScrollToHash />
       <SiteHeader />
-      <div
-        key={`${location.pathname}${location.search}${location.hash}`}
-        className="route-transition"
-      >
+      <div key={pathname} className="route-transition">
         <Outlet />
       </div>
       <Footer />

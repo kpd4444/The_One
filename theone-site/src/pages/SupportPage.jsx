@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Seo from "../components/Seo";
 import { noticeRows, supportTabs } from "../data/supportData";
 
 export default function SupportPage() {
   const { pathname, search } = useLocation();
-  const searchParams = new URLSearchParams(search);
+  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
   const currentTab = searchParams.get("tab") === "inquiry" ? "inquiry" : "notice";
   const noticeId = Number(searchParams.get("notice") || 0);
 
@@ -81,6 +82,31 @@ export default function SupportPage() {
 
   return (
     <main className="about-page section support-page">
+      <Seo
+        title={
+          currentTab === "notice"
+            ? selectedNotice
+              ? `고객센터 - ${selectedNotice.title}`
+              : "고객센터 - 공지사항"
+            : "고객센터 - 문의하기"
+        }
+        description={
+          currentTab === "notice"
+            ? "더원산업 공지사항과 안내 내용을 확인할 수 있는 고객센터 페이지입니다."
+            : "더원산업 제품 및 제작 관련 문의를 남길 수 있는 고객센터 페이지입니다."
+        }
+        path={
+          currentTab === "notice" && selectedNotice
+            ? `/support?tab=notice&notice=${selectedNotice.id}`
+            : `/support?tab=${currentTab}`
+        }
+        keywords={[
+          "더원산업 고객센터",
+          currentTab === "notice" ? "공지사항" : "문의하기",
+          "제품 문의",
+          "견적 문의",
+        ]}
+      />
       <div className="container">
         <div className="about-breadcrumb">
           <span>HOME</span>

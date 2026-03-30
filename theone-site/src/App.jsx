@@ -1,16 +1,24 @@
-import { Suspense, lazy } from "react";
+﻿import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import PageLoader from "./components/PageLoader";
 import Layout from "./layouts/Layout";
+import {
+  loadAboutPage,
+  loadGalleryPage,
+  loadMainPage,
+  loadProductsPage,
+  loadSupportPage,
+} from "./utils/pageLoaders";
 
-const MainPage = lazy(() => import("./pages/MainPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const ProductsPage = lazy(() => import("./pages/ProductsPage"));
-const GalleryPage = lazy(() => import("./pages/GalleryPage"));
-const SupportPage = lazy(() => import("./pages/SupportPage"));
+const MainPage = lazy(loadMainPage);
+const AboutPage = lazy(loadAboutPage);
+const ProductsPage = lazy(loadProductsPage);
+const GalleryPage = lazy(loadGalleryPage);
+const SupportPage = lazy(loadSupportPage);
 
 export default function App() {
   return (
-    <Suspense fallback={<div className="page-loading">페이지를 불러오는 중입니다.</div>}>
+    <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<MainPage />} />

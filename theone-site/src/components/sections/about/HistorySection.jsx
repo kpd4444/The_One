@@ -65,9 +65,9 @@ function groupByYear(items) {
   return grouped;
 }
 
-export default function HistorySection() {
-  const groupedHistory = groupByYear(history);
+const groupedHistory = groupByYear(history);
 
+export default function HistorySection() {
   return (
     <section id="history" className="section section-muted">
       <div className="container">

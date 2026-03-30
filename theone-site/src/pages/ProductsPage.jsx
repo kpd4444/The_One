@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Seo from "../components/Seo";
 import {
   applicationFields,
   pageTabs,
@@ -14,15 +15,33 @@ export default function ProductsPage() {
   const [modalProduct, setModalProduct] = useState(null);
 
   useEffect(() => {
+    if (!modalProduct) return undefined;
+
     const onEscape = (event) => {
       if (event.key === "Escape") setModalProduct(null);
     };
     window.addEventListener("keydown", onEscape);
     return () => window.removeEventListener("keydown", onEscape);
-  }, []);
+  }, [modalProduct]);
 
   return (
     <main className="about-page section">
+      <Seo
+        title={currentTab === "feature" ? "제품소개 - 제품 특성" : "제품소개 - 적용 분야"}
+        description={
+          currentTab === "feature"
+            ? "더원산업의 제품 특성과 맞춤 제작 역량을 소개하는 제품소개 페이지입니다."
+            : "더원산업 제품이 적용되는 산업 현장과 응용 분야를 안내하는 페이지입니다."
+        }
+        path={`/products?tab=${currentTab}`}
+        keywords={[
+          "더원산업",
+          "제품소개",
+          currentTab === "feature" ? "제품 특성" : "적용 분야",
+          "함체 제작",
+          "키오스크 하우징",
+        ]}
+      />
       <div className="container">
         <div className="about-breadcrumb">
           <span>HOME</span>

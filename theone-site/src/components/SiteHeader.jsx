@@ -1,6 +1,7 @@
 ﻿import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { preloadPage } from "../utils/pageLoaders";
 
 const navItems = [
   {
@@ -37,6 +38,7 @@ const navItems = [
 ];
 
 export default function SiteHeader() {
+  const { pathname, search, hash } = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [panelSection, setPanelSection] = useState(navItems[0].label);
@@ -74,6 +76,14 @@ export default function SiteHeader() {
     };
   }, [isPanelOpen]);
 
+  useEffect(() => () => clearCloseTimer(), []);
+
+  useEffect(() => {
+    clearCloseTimer();
+    setOpenMenu(null);
+    setIsPanelOpen(false);
+  }, [pathname, search, hash]);
+
   const activePanelItem = navItems.find((item) => item.label === panelSection) ?? navItems[0];
 
   return (
@@ -84,7 +94,13 @@ export default function SiteHeader() {
         onMouseLeave={scheduleCloseMenu}
       >
         <div className="container pg-nav-wrap">
-          <Link className="pg-logo" to="/" aria-label="더원산업 홈">
+          <Link
+            className="pg-logo"
+            to="/"
+            aria-label="더원산업 홈"
+            onMouseEnter={() => preloadPage("/")}
+            onFocus={() => preloadPage("/")}
+          >
             <img src={logo} alt="더원산업 로고" className="pg-logo-img" />
           </Link>
 
@@ -98,12 +114,14 @@ export default function SiteHeader() {
                   className="pg-nav-item"
                   onMouseEnter={() => {
                     clearCloseTimer();
+                    preloadPage(item.to);
                     setOpenMenu(item.label);
                   }}
                 >
                   <NavLink
                     to={item.to}
                     className={({ isActive }) => `pg-nav-main-link ${isActive ? "active" : ""}`}
+                    onFocus={() => preloadPage(item.to)}
                   >
                     {item.label}
                   </NavLink>
@@ -122,6 +140,8 @@ export default function SiteHeader() {
                             <Link
                               to={link.href}
                               className="pg-dropdown-link"
+                              onMouseEnter={() => preloadPage(link.href)}
+                              onFocus={() => preloadPage(link.href)}
                               onClick={() => setOpenMenu(null)}
                             >
                               {link.label}
@@ -181,7 +201,10 @@ export default function SiteHeader() {
                       <button
                         type="button"
                         className={`pg-panel-main-btn ${panelSection === item.label ? "active" : ""}`}
-                        onClick={() => setPanelSection(item.label)}
+                        onClick={() => {
+                          preloadPage(item.to);
+                          setPanelSection(item.label);
+                        }}
                       >
                         <span>{item.label}</span>
                         <span aria-hidden="true">›</span>
@@ -198,7 +221,12 @@ export default function SiteHeader() {
                   <ul>
                     {activePanelItem.subLinks.map((link) => (
                       <li key={link.label}>
-                        <Link to={link.href} onClick={() => setIsPanelOpen(false)}>
+                        <Link
+                          to={link.href}
+                          onMouseEnter={() => preloadPage(link.href)}
+                          onFocus={() => preloadPage(link.href)}
+                          onClick={() => setIsPanelOpen(false)}
+                        >
                           {link.label}
                         </Link>
                       </li>
@@ -207,7 +235,12 @@ export default function SiteHeader() {
                 ) : (
                   <ul>
                     <li>
-                      <Link to={activePanelItem.to} onClick={() => setIsPanelOpen(false)}>
+                      <Link
+                        to={activePanelItem.to}
+                        onMouseEnter={() => preloadPage(activePanelItem.to)}
+                        onFocus={() => preloadPage(activePanelItem.to)}
+                        onClick={() => setIsPanelOpen(false)}
+                      >
                         {activePanelItem.label} 바로가기
                       </Link>
                     </li>
