@@ -51,11 +51,13 @@
 
 .home-hero-copy h1 {
   margin: 0;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.04;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.35rem, 4.5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.05em;
   text-wrap: balance;
-  max-width: 10.5ch;
+  max-width: 11.8ch;
+  color: #f7f9fc;
+  text-shadow: 0 8px 24px rgba(5, 12, 24, 0.18);
 }
 
 .home-hero-title-line {

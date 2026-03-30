@@ -160,9 +160,11 @@ export default function SiteHeader() {
             <div className="pg-contact-pill">대표번호 031-997-4020</div>
             <button
               type="button"
-              className="pg-menu-btn"
+              className={`pg-menu-btn ${isPanelOpen ? "is-open" : ""}`}
               onClick={() => setIsPanelOpen(true)}
               aria-label="전체 메뉴 열기"
+              aria-expanded={isPanelOpen}
+              aria-controls="site-menu-panel"
             >
               <span className="pg-menu-btn-icon" aria-hidden="true">
                 <i />
@@ -178,6 +180,7 @@ export default function SiteHeader() {
       {isPanelOpen && (
         <div className="pg-panel-overlay" onClick={() => setIsPanelOpen(false)}>
           <section
+            id="site-menu-panel"
             className="pg-panel"
             aria-label="전체 메뉴"
             onClick={(event) => event.stopPropagation()}

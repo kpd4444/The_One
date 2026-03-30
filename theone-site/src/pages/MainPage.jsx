@@ -85,9 +85,9 @@ export default function MainPage() {
             <div className="home-hero-copy">
               <p className="home-kicker">THE ONE INDUSTRY</p>
               <h1>
-                <span className="home-hero-title-line">장비를 보호하는 케이스와</span>
-                <span className="home-hero-title-line">함체를 더 정교하게</span>
-                <span className="home-hero-title-line">만듭니다.</span>
+                <span className="home-hero-title-line">장비를 보호하는</span>
+                <span className="home-hero-title-line">케이스와 함체를 더</span>
+                <span className="home-hero-title-line">정교하게 만듭니다.</span>
               </h1>
               <p className="home-hero-lead">
                 더원산업은 무인차량 번호 인식 카메라 케이스, 로비폰, 무인과속 카메라 케이스,
