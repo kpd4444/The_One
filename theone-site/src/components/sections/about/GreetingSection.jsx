@@ -1,4 +1,4 @@
-import heroImage from "../../../assets/about-intro-visual.jpg";
+﻿import heroImage from "../../../assets/about-intro-visual.webp";
 
 export default function GreetingSection() {
   return (
@@ -7,12 +7,12 @@ export default function GreetingSection() {
         <div className="greeting-box greeting-modern">
           <div className="greeting-layout">
             <figure className="greeting-media">
-              <img src={heroImage} alt="더원산업 제조 및 제품 현장" loading="lazy" />
+              <img src={heroImage} alt="더원산업 제조 및 제품 현장" loading="lazy" decoding="async" />
             </figure>
 
             <div className="greeting-content">
               <p className="greeting-lead">
-                더원산업은 산업 장비용 케이스·함체를 설계부터 제작까지 통합 대응하는 제조 파트너입니다.
+                더원산업은 산업 장비용 케이스와 함체를 설계부터 제작까지 통합 대응하는 제조 파트너입니다.
               </p>
 
               <div className="greeting-chips" aria-label="핵심 가치">
@@ -23,9 +23,9 @@ export default function GreetingSection() {
               </div>
 
               <ul className="greeting-points">
-                <li>주요 제품: ITS 함체, 정산기, 통신함체, 하우징</li>
-                <li>강점: 설계-가공-조립 일괄 공정으로 안정적인 품질 관리</li>
-                <li>대응 분야: 주차관제, 통신장비, 카메라 장비 및 현장 프로젝트</li>
+                <li>주요 제품: ITS 함체, 정산기, 통신 함체, 하우징</li>
+                <li>강점: 설계, 가공, 조립까지 이어지는 일괄 제작 공정</li>
+                <li>대응 분야: 주차 관제, 통신 장비, 카메라 장비 및 현장 프로젝트</li>
               </ul>
             </div>
           </div>
@@ -34,23 +34,20 @@ export default function GreetingSection() {
         <section className="greeting-message" aria-label="대표 인사말">
           <h3>대표 인사말</h3>
           <p>
-            저희 업체는 각종 장비보조 케이스 제작업체이며, 현재 생산 중인 제품은 무인차량 번호 인식
-            카메라 및 케이스, 아파트 입구 로비폰, 무인과속 카메라 케이스, 내부함체 및 이에 연계된
-            프로젝트 케이스, ITS 장비 함체 등을 제작하고 있습니다. 케이스들은 구성장비를 최적의 상태로
-            유지하고 보존하기 위해 맞춤형으로 설계되어 구성장비의 수명과 동작이 효율적으로 이루어질 수
-            있도록 설계 및 제작하고 있습니다.
+            더원산업은 각종 장비 보호 케이스 제작 업체로, 무인차량 번호 인식 카메라 케이스,
+            로비폰, 무인과속 카메라 케이스, 프로젝트 빔 케이스, ITS 장비 함체 등을 제작하고
+            있습니다.
           </p>
           <p>
-            당사는 혁신과 지속적인 개선을 통해 고객의 요구에 완벽한 품질과 서비스로 고객만족을
-            최우선의 가치로 여기고 있으며, 앞으로도 저희 임직원은 더 좋은 품질과 신뢰를 바탕으로 최선의
-            노력을 기울일 것을 약속드립니다.
+            케이스는 구성 장비가 최적의 상태로 유지되고 보존될 수 있도록 맞춤형으로 설계하며,
+            장비의 수명과 동작 효율을 안정적으로 유지할 수 있도록 제작하고 있습니다.
           </p>
           <p>
-            고객 여러분들의 지속적인 성원과 관심 부탁드립니다. 감사합니다.
+            앞으로도 끊임없는 개선과 성실한 품질 관리로 고객 만족을 위해 최선을 다하겠습니다.
           </p>
 
           <div className="greeting-sign">
-            <strong>대표이사 조성록</strong>
+            <strong>대표이사 조성로</strong>
           </div>
         </section>
       </div>

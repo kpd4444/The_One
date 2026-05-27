@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 import { preloadPage } from "../utils/pageLoaders";
 
 const navItems = [
@@ -80,8 +80,13 @@ export default function SiteHeader() {
 
   useEffect(() => {
     clearCloseTimer();
-    setOpenMenu(null);
-    setIsPanelOpen(false);
+
+    const frameId = window.requestAnimationFrame(() => {
+      setOpenMenu(null);
+      setIsPanelOpen(false);
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
   }, [pathname, search, hash]);
 
   const activePanelItem = navItems.find((item) => item.label === panelSection) ?? navItems[0];
@@ -101,7 +106,15 @@ export default function SiteHeader() {
             onMouseEnter={() => preloadPage("/")}
             onFocus={() => preloadPage("/")}
           >
-            <img src={logo} alt="더원산업 로고" className="pg-logo-img" />
+            <img
+              src={logo}
+              alt="더원산업 로고"
+              className="pg-logo-img"
+              width="250"
+              height="45"
+              decoding="async"
+              fetchPriority="high"
+            />
           </Link>
 
           <nav className="pg-nav-menu" aria-label="메인 메뉴">

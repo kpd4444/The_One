@@ -1,6 +1,6 @@
-﻿import itsImg from "../assets/product-its-enclosure.jpg";
-import kioskImg from "../assets/product-kiosk-body.jpg";
-import projectBeamImg from "../assets/product-project-beam-case-a.jpg";
+import itsImg from "../assets/product-its-enclosure.webp";
+import kioskImg from "../assets/product-kiosk-body.webp";
+import projectBeamImg from "../assets/product-project-beam-case-a.webp";
 
 export const metrics = [
   { label: "진행 프로젝트", value: "210+" },

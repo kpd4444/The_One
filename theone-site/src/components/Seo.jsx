@@ -14,6 +14,7 @@ const DEFAULT_KEYWORDS = [
   "ITS 함체",
   "산업용 하우징",
 ];
+const EMPTY_STRUCTURED_DATA = [];
 
 function upsertMeta(selector, create) {
   let element = document.head.querySelector(selector);
@@ -75,7 +76,7 @@ export default function Seo({
   image = DEFAULT_IMAGE,
   keywords = DEFAULT_KEYWORDS,
   type = "website",
-  structuredData = [],
+  structuredData = EMPTY_STRUCTURED_DATA,
 }) {
   useEffect(() => {
     const currentPath = path || `${window.location.pathname}${window.location.search}`;

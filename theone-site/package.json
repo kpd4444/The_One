@@ -8,6 +8,7 @@
     "prebuild": "node scripts/generate-seo-files.mjs",
     "build": "vite build",
     "lint": "eslint .",
+    "optimize:images": "node scripts/generate-webp-assets.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "sharp": "^0.34.5",
     "vite": "^7.3.1"
   }
 }

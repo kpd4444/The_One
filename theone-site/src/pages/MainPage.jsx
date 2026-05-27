@@ -11,14 +11,27 @@ import {
 
 const EarthGlobe3D = lazy(() => import("../components/EarthGlobe3D"));
 
+function shouldUseStaticHeroVisual() {
+  const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const savesData = Boolean(navigator.connection?.saveData);
+  const hasLimitedCpu = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+
+  return isSmallScreen || prefersReducedMotion || savesData || hasLimitedCpu;
+}
+
 export default function MainPage() {
   const [showHeroVisual, setShowHeroVisual] = useState(false);
+  const [useStaticHeroVisual, setUseStaticHeroVisual] = useState(false);
 
   useEffect(() => {
     let timeoutId;
     let idleId;
 
-    const revealVisual = () => setShowHeroVisual(true);
+    const revealVisual = () => {
+      setUseStaticHeroVisual(shouldUseStaticHeroVisual());
+      setShowHeroVisual(true);
+    };
 
     if ("requestIdleCallback" in window) {
       idleId = window.requestIdleCallback(revealVisual, { timeout: 180 });
@@ -122,7 +135,20 @@ export default function MainPage() {
                   <div className="home-globe home-globe-3d-shell">
                     <div className="home-globe-aura" />
                     <div className="home-globe-rim" />
-                    <Suspense fallback={<div className="earth-globe-three earth-globe-placeholder" aria-hidden="true" />}><EarthGlobe3D /></Suspense>
+                    {useStaticHeroVisual ? (
+                      <div
+                        className="earth-globe-three earth-globe-placeholder earth-globe-static"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <Suspense
+                        fallback={
+                          <div className="earth-globe-three earth-globe-placeholder" aria-hidden="true" />
+                        }
+                      >
+                        <EarthGlobe3D />
+                      </Suspense>
+                    )}
                     <div className="home-globe-shadow" />
                   </div>
 

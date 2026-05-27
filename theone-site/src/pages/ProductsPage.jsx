@@ -144,7 +144,13 @@ export default function ProductsPage() {
             </div>
 
             <figure className="product-modal-image">
-              <img src={modalProduct.images[0]} alt={modalProduct.name} loading="lazy" decoding="async" />
+              <img
+                src={modalProduct.images[0]}
+                alt={modalProduct.name}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
             </figure>
           </div>
         </div>

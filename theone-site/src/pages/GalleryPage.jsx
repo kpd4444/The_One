@@ -2,11 +2,11 @@
 import { createPortal } from "react-dom";
 import Seo from "../components/Seo";
 
-const galleryFullImageModules = import.meta.glob("../assets/gallery/*.{jpg,jpeg,webp}", {
+const galleryFullImageModules = import.meta.glob("../assets/gallery/*.webp", {
   import: "default",
 });
 
-const galleryThumbImageModules = import.meta.glob("../assets/gallery/thumbs/*.{jpg,jpeg,webp}", {
+const galleryThumbImageModules = import.meta.glob("../assets/gallery/thumbs/*.webp", {
   eager: true,
   import: "default",
 });
@@ -186,16 +186,30 @@ export default function GalleryPage() {
     return filteredItems.findIndex((item) => item.id === selectedItem.id);
   }, [filteredItems, selectedItem]);
 
+  const selectGalleryItem = useCallback((item) => {
+    setSelectedImageSrc(item.thumbSrc);
+    setIsImageLoading(Boolean(item.fullLoader));
+    setZoomLevel(MIN_ZOOM);
+    setSelectedItem(item);
+  }, []);
+
+  const closeGalleryModal = useCallback(() => {
+    setSelectedItem(null);
+    setSelectedImageSrc(null);
+    setIsImageLoading(false);
+    setZoomLevel(MIN_ZOOM);
+  }, []);
+
   const moveSelection = useCallback(
     (direction) => {
       if (selectedIndex < 0) return;
 
       const nextItem = filteredItems[selectedIndex + direction];
       if (nextItem) {
-        setSelectedItem(nextItem);
+        selectGalleryItem(nextItem);
       }
     },
-    [filteredItems, selectedIndex],
+    [filteredItems, selectGalleryItem, selectedIndex],
   );
 
   const changeZoom = useCallback((delta) => {
@@ -212,7 +226,7 @@ export default function GalleryPage() {
     const previousOverflow = document.body.style.overflow;
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
-        setSelectedItem(null);
+        closeGalleryModal();
         return;
       }
 
@@ -250,20 +264,12 @@ export default function GalleryPage() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [changeZoom, moveSelection, resetZoom, selectedItem]);
+  }, [changeZoom, closeGalleryModal, moveSelection, resetZoom, selectedItem]);
 
   useEffect(() => {
-    if (!selectedItem) {
-      setSelectedImageSrc(null);
-      setIsImageLoading(false);
-      setZoomLevel(MIN_ZOOM);
-      return undefined;
-    }
+    if (!selectedItem) return undefined;
 
     let cancelled = false;
-    setSelectedImageSrc(selectedItem.thumbSrc);
-    setIsImageLoading(Boolean(selectedItem.fullLoader));
-    setZoomLevel(MIN_ZOOM);
 
     loadFullImage(selectedItem)
       .then((src) => {
@@ -368,7 +374,7 @@ export default function GalleryPage() {
                 key={item.id}
                 type="button"
                 className="gallery-card-v2"
-                onClick={() => setSelectedItem(item)}
+                onClick={() => selectGalleryItem(item)}
               >
                 <figure className="gallery-thumb-v2">
                   <span className="gallery-card-hint-v2">클릭해 크게 보기</span>
@@ -390,7 +396,7 @@ export default function GalleryPage() {
         createPortal(
           <div
             className="gallery-modal-overlay-v2"
-            onClick={() => setSelectedItem(null)}
+            onClick={closeGalleryModal}
             role="presentation"
           >
             <div
@@ -404,7 +410,7 @@ export default function GalleryPage() {
                 type="button"
                 className="gallery-modal-close-v2"
                 ref={closeButtonRef}
-                onClick={() => setSelectedItem(null)}
+                onClick={closeGalleryModal}
                 aria-label="갤러리 닫기"
               >
                 ×
@@ -462,6 +468,7 @@ export default function GalleryPage() {
                     src={selectedImageSrc ?? selectedItem.thumbSrc}
                     alt={selectedItem.title}
                     decoding="async"
+                    fetchPriority="high"
                     style={{ transform: `scale(${zoomLevel})` }}
                   />
                 </div>
@@ -488,7 +495,7 @@ export default function GalleryPage() {
                         type="button"
                         className={`gallery-modal-thumb-v2 ${isActive ? "active" : ""}`.trim()}
                         data-active={isActive ? "true" : "false"}
-                        onClick={() => setSelectedItem(item)}
+                        onClick={() => selectGalleryItem(item)}
                         aria-label={`${item.title} 보기`}
                         aria-pressed={isActive}
                       >

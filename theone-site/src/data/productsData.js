@@ -1,11 +1,11 @@
-import itsImg from "../assets/product-its-enclosure.jpg";
-import kioskImg from "../assets/product-kiosk-body.jpg";
-import projectBeamAImg from "../assets/product-project-beam-case-a.jpg";
-import projectBeamBImg from "../assets/product-project-beam-case-b.jpg";
-import gateLprAImg from "../assets/product-gate-lpr-a.jpg";
-import gateLprBImg from "../assets/product-gate-lpr-b.jpg";
-import telecomImg from "../assets/product-telecom-enclosure.jpg";
-import housingImg from "../assets/product-housing.jpg";
+import itsImg from "../assets/product-its-enclosure.webp";
+import kioskImg from "../assets/product-kiosk-body.webp";
+import projectBeamAImg from "../assets/product-project-beam-case-a.webp";
+import projectBeamBImg from "../assets/product-project-beam-case-b.webp";
+import gateLprAImg from "../assets/product-gate-lpr-a.webp";
+import gateLprBImg from "../assets/product-gate-lpr-b.webp";
+import telecomImg from "../assets/product-telecom-enclosure.webp";
+import housingImg from "../assets/product-housing.webp";
 
 export const products = [
   {

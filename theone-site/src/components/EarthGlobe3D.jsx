@@ -1,10 +1,34 @@
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import {
+  ACESFilmicToneMapping,
+  AdditiveBlending,
+  AmbientLight,
+  BackSide,
+  BufferAttribute,
+  BufferGeometry,
+  Color,
+  DirectionalLight,
+  Group,
+  HemisphereLight,
+  Mesh,
+  MeshPhongMaterial,
+  NoColorSpace,
+  PerspectiveCamera,
+  Points,
+  PointsMaterial,
+  Scene,
+  ShaderMaterial,
+  SphereGeometry,
+  SRGBColorSpace,
+  TextureLoader,
+  Vector2,
+  WebGLRenderer,
+} from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import earthAtmosMapUrl from "../assets/earth/earth_atmos_2048.jpg";
-import earthCloudMapUrl from "../assets/earth/earth_clouds_1024.png";
-import earthNormalMapUrl from "../assets/earth/earth_normal_2048.jpg";
-import earthSpecularMapUrl from "../assets/earth/earth_specular_2048.jpg";
+import earthAtmosMapUrl from "../assets/earth/earth_atmos_2048.webp";
+import earthCloudMapUrl from "../assets/earth/earth_clouds_1024.webp";
+import earthNormalMapUrl from "../assets/earth/earth_normal_2048.webp";
+import earthSpecularMapUrl from "../assets/earth/earth_specular_2048.webp";
 
 const STAR_COUNT = 1200;
 
@@ -21,10 +45,10 @@ function createStars() {
     positions[index * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
   }
 
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const geometry = new BufferGeometry();
+  geometry.setAttribute("position", new BufferAttribute(positions, 3));
 
-  const material = new THREE.PointsMaterial({
+  const material = new PointsMaterial({
     color: 0xcfe0ff,
     size: 0.035,
     transparent: true,
@@ -33,13 +57,13 @@ function createStars() {
     depthWrite: false,
   });
 
-  return new THREE.Points(geometry, material);
+  return new Points(geometry, material);
 }
 
 function createAtmosphereMaterial() {
-  return new THREE.ShaderMaterial({
+  return new ShaderMaterial({
     uniforms: {
-      glowColor: { value: new THREE.Color("#72afff") },
+      glowColor: { value: new Color("#72afff") },
     },
     vertexShader: `
       varying vec3 vNormal;
@@ -56,8 +80,8 @@ function createAtmosphereMaterial() {
         gl_FragColor = vec4(glowColor * intensity, intensity * 0.88);
       }
     `,
-    side: THREE.BackSide,
-    blending: THREE.AdditiveBlending,
+    side: BackSide,
+    blending: AdditiveBlending,
     transparent: true,
     depthWrite: false,
   });
@@ -72,21 +96,21 @@ export default function EarthGlobe3D() {
     }
 
     const mountNode = mountRef.current;
-    const renderer = new THREE.WebGLRenderer({
+    const renderer = new WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.outputColorSpace = SRGBColorSpace;
+    renderer.toneMapping = ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.26;
     renderer.domElement.className = "earth-globe-canvas";
     mountNode.appendChild(renderer.domElement);
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1000);
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(42, 1, 0.1, 1000);
     camera.position.set(0, 0, 3.45);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -100,24 +124,24 @@ export default function EarthGlobe3D() {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.48;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.05);
+    const ambientLight = new AmbientLight(0xffffff, 1.05);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.15);
+    const directionalLight = new DirectionalLight(0xffffff, 1.15);
     directionalLight.position.set(5, 3, 5);
     scene.add(directionalLight);
 
-    const rimLight = new THREE.DirectionalLight(0x8eb8ff, 0.72);
+    const rimLight = new DirectionalLight(0x8eb8ff, 0.72);
     rimLight.position.set(-4, -1.5, -2);
     scene.add(rimLight);
 
-    const hemiLight = new THREE.HemisphereLight(0xbfd6ff, 0x1a2742, 0.92);
+    const hemiLight = new HemisphereLight(0xbfd6ff, 0x1a2742, 0.92);
     scene.add(hemiLight);
 
-    const group = new THREE.Group();
+    const group = new Group();
     scene.add(group);
 
-    const loader = new THREE.TextureLoader();
+    const loader = new TextureLoader();
     let frameId = 0;
     let resizeObserver;
     let stars;
@@ -125,6 +149,9 @@ export default function EarthGlobe3D() {
     let cloudMesh;
     let atmosphereMesh;
     let disposed = false;
+    let isInViewport = true;
+    let isDocumentVisible = document.visibilityState === "visible";
+    let isAnimating = false;
 
     const resize = () => {
       const width = mountNode.clientWidth || 480;
@@ -133,6 +160,57 @@ export default function EarthGlobe3D() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
     };
+
+    const stopAnimation = () => {
+      if (!isAnimating) return;
+      window.cancelAnimationFrame(frameId);
+      frameId = 0;
+      isAnimating = false;
+    };
+
+    const animate = () => {
+      if (disposed || !isInViewport || !isDocumentVisible) {
+        stopAnimation();
+        return;
+      }
+
+      cloudMesh.rotation.y += 0.0009;
+      controls.update();
+      renderer.render(scene, camera);
+      frameId = window.requestAnimationFrame(animate);
+    };
+
+    const startAnimation = () => {
+      if (isAnimating || !cloudMesh || disposed || !isInViewport || !isDocumentVisible) return;
+      isAnimating = true;
+      frameId = window.requestAnimationFrame(animate);
+    };
+
+    const handleVisibilityChange = () => {
+      isDocumentVisible = document.visibilityState === "visible";
+
+      if (isDocumentVisible) {
+        startAnimation();
+      } else {
+        stopAnimation();
+      }
+    };
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isInViewport = entry.isIntersecting;
+
+        if (isInViewport) {
+          startAnimation();
+        } else {
+          stopAnimation();
+        }
+      },
+      { threshold: 0.05 },
+    );
+
+    visibilityObserver.observe(mountNode);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     Promise.all([
       loader.loadAsync(earthAtmosMapUrl),
@@ -145,45 +223,45 @@ export default function EarthGlobe3D() {
         return;
       }
 
-      surfaceMap.colorSpace = THREE.SRGBColorSpace;
-      cloudMap.colorSpace = THREE.SRGBColorSpace;
-      normalMap.colorSpace = THREE.NoColorSpace;
-      specularMap.colorSpace = THREE.NoColorSpace;
+      surfaceMap.colorSpace = SRGBColorSpace;
+      cloudMap.colorSpace = SRGBColorSpace;
+      normalMap.colorSpace = NoColorSpace;
+      specularMap.colorSpace = NoColorSpace;
 
       [surfaceMap, normalMap, specularMap, cloudMap].forEach((texture) => {
-        texture.anisotropy = 8;
+        texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
       });
 
-      const earthGeometry = new THREE.SphereGeometry(1.08, 64, 64);
-      const earthMaterial = new THREE.MeshPhongMaterial({
+      const earthGeometry = new SphereGeometry(1.08, 64, 64);
+      const earthMaterial = new MeshPhongMaterial({
         map: surfaceMap,
         normalMap,
-        normalScale: new THREE.Vector2(0.55, 0.55),
+        normalScale: new Vector2(0.55, 0.55),
         specularMap,
-        specular: new THREE.Color("#6d7f95"),
+        specular: new Color("#6d7f95"),
         shininess: 14,
-        emissive: new THREE.Color("#1b2f56"),
+        emissive: new Color("#1b2f56"),
         emissiveIntensity: 0.16,
       });
 
-      earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+      earthMesh = new Mesh(earthGeometry, earthMaterial);
       earthMesh.rotation.set(0.22, -1.95, 0.08);
       group.add(earthMesh);
 
-      const cloudGeometry = new THREE.SphereGeometry(1.096, 64, 64);
-      const cloudMaterial = new THREE.MeshPhongMaterial({
+      const cloudGeometry = new SphereGeometry(1.096, 64, 64);
+      const cloudMaterial = new MeshPhongMaterial({
         map: cloudMap,
         transparent: true,
         opacity: 0.4,
         depthWrite: false,
       });
 
-      cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+      cloudMesh = new Mesh(cloudGeometry, cloudMaterial);
       cloudMesh.rotation.copy(earthMesh.rotation);
       group.add(cloudMesh);
 
-      atmosphereMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(1.13, 64, 64),
+      atmosphereMesh = new Mesh(
+        new SphereGeometry(1.13, 64, 64),
         createAtmosphereMaterial(),
       );
       atmosphereMesh.rotation.copy(earthMesh.rotation);
@@ -195,21 +273,15 @@ export default function EarthGlobe3D() {
       resize();
       resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(mountNode);
-
-      const animate = () => {
-        cloudMesh.rotation.y += 0.0009;
-        controls.update();
-        renderer.render(scene, camera);
-        frameId = window.requestAnimationFrame(animate);
-      };
-
-      frameId = window.requestAnimationFrame(animate);
+      startAnimation();
     });
 
     return () => {
       disposed = true;
-      window.cancelAnimationFrame(frameId);
+      stopAnimation();
+      visibilityObserver.disconnect();
       resizeObserver?.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       controls.dispose();
 
       scene.traverse((object) => {
