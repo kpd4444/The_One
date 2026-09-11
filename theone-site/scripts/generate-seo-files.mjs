@@ -13,6 +13,7 @@ const routes = [
   { path: "/products", priority: "0.9", changefreq: "monthly" },
   { path: "/gallery", priority: "0.8", changefreq: "weekly" },
   { path: "/support", priority: "0.7", changefreq: "monthly" },
+  { path: "/privacy", priority: "0.2", changefreq: "yearly" },
 ];
 
 const publicDir = path.resolve("public");

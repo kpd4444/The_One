@@ -1,13 +1,15 @@
 ﻿export const loadMainPage = () => import("../pages/MainPage");
 export const loadAboutPage = () => import("../pages/AboutPage");
+export const loadHomePage = () => import("../pages/HomePage");
 export const loadProductsPage = () => import("../pages/ProductsPage");
 export const loadGalleryPage = () => import("../pages/GalleryPage");
+export const loadProductCatalogPage = () => import("../pages/ProductCatalogPage");
 export const loadSupportPage = () => import("../pages/SupportPage");
 
 const pagePreloaders = {
-  "/": loadMainPage,
+  "/": loadHomePage,
   "/about": loadAboutPage,
-  "/products": loadProductsPage,
+  "/products": loadProductCatalogPage,
   "/gallery": loadGalleryPage,
   "/support": loadSupportPage,
 };

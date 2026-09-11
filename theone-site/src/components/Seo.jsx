@@ -5,15 +5,7 @@ const SITE_NAME = "더원산업";
 const DEFAULT_TITLE = "더원산업 | 정밀 케이스·함체 설계 및 제작";
 const DEFAULT_DESCRIPTION =
   "더원산업은 정밀 케이스, 함체, 키오스크, ITS 장비 하우징을 설계·제작하는 산업 설비 전문 기업입니다.";
-const DEFAULT_IMAGE = "/og-cover.svg";
-const DEFAULT_KEYWORDS = [
-  "더원산업",
-  "케이스 제작",
-  "함체 제작",
-  "키오스크 함체",
-  "ITS 함체",
-  "산업용 하우징",
-];
+const DEFAULT_IMAGE = "/og-cover.png";
 const EMPTY_STRUCTURED_DATA = [];
 
 function upsertMeta(selector, create) {
@@ -74,25 +66,29 @@ export default function Seo({
   description = DEFAULT_DESCRIPTION,
   path = "",
   image = DEFAULT_IMAGE,
-  keywords = DEFAULT_KEYWORDS,
   type = "website",
   structuredData = EMPTY_STRUCTURED_DATA,
+  robots,
 }) {
+  const structuredDataText = JSON.stringify(structuredData);
+
   useEffect(() => {
     const currentPath = path || `${window.location.pathname}${window.location.search}`;
     const siteUrl = resolveSiteUrl();
     const url = new URL(currentPath, `${siteUrl}/`).toString();
     const imageUrl = new URL(image, `${siteUrl}/`).toString();
     const titleText = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-    const keywordText = Array.isArray(keywords) ? keywords.join(", ") : keywords;
-    const jsonLdItems = Array.isArray(structuredData) ? structuredData : [structuredData];
+    const parsedStructuredData = JSON.parse(structuredDataText);
+    const jsonLdItems = (Array.isArray(parsedStructuredData)
+      ? parsedStructuredData
+      : [parsedStructuredData]).filter(Boolean);
 
     document.title = titleText;
     document.documentElement.lang = "ko";
 
     setMetaByName("description", description);
-    setMetaByName("keywords", keywordText);
-    setMetaByName("robots", "index,follow");
+    const isProduction = ["theone412.com", "www.theone412.com"].includes(window.location.hostname);
+    setMetaByName("robots", robots || (isProduction ? "index,follow" : "noindex,nofollow"));
     setMetaByName("theme-color", "#102645");
 
     setMetaByProperty("og:type", type);
@@ -102,6 +98,8 @@ export default function Seo({
     setMetaByProperty("og:description", description);
     setMetaByProperty("og:url", url);
     setMetaByProperty("og:image", imageUrl);
+    setMetaByProperty("og:image:width", "1200");
+    setMetaByProperty("og:image:height", "630");
 
     setMetaByName("twitter:card", "summary_large_image");
     setMetaByName("twitter:title", titleText);
@@ -121,7 +119,7 @@ export default function Seo({
           .forEach((element) => element.remove());
       }
     };
-  }, [description, image, keywords, path, structuredData, title, type]);
+  }, [description, image, path, robots, structuredDataText, title, type]);
 
   return null;
 }

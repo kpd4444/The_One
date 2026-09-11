@@ -1,13 +1,15 @@
 ﻿import { useEffect, useRef, useState } from "react";
 
-const KAKAO_APP_KEY = "cfce6ff2ff19f408cd151d9a41cfd20a";
+const KAKAO_APP_KEY = import.meta.env.VITE_KAKAO_APP_KEY || "cfce6ff2ff19f408cd151d9a41cfd20a";
 const COMPANY_NAME = "더원산업";
 const COMPANY_ADDRESS = "경기도 김포시 대곶면 오니산로 100";
 const COMPANY_PHONE = "031-997-4020";
+const KAKAO_SCRIPT_ID = "kakao-maps-sdk";
 
 export default function LocationSection() {
   const mapRef = useRef(null);
   const [mapError, setMapError] = useState("");
+  const [isMapLoading, setIsMapLoading] = useState(true);
 
   useEffect(() => {
     const initializeMap = () => {
@@ -19,6 +21,7 @@ export default function LocationSection() {
         center: defaultCenter,
         level: 4,
       });
+      setIsMapLoading(false);
 
       const geocoder = new kakao.maps.services.Geocoder();
       geocoder.addressSearch(COMPANY_ADDRESS, (result, status) => {
@@ -47,13 +50,27 @@ export default function LocationSection() {
       return;
     }
 
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false&libraries=services`;
-    script.onload = () => window.kakao.maps.load(initializeMap);
-    script.onerror = () =>
+    const existingScript = document.getElementById(KAKAO_SCRIPT_ID);
+    const script = existingScript || document.createElement("script");
+    const handleLoad = () => window.kakao?.maps?.load(initializeMap);
+    const handleError = () => {
+      setIsMapLoading(false);
       setMapError("카카오맵 스크립트를 불러오지 못했습니다. 네트워크 상태를 확인해 주세요.");
-    document.head.appendChild(script);
+    };
+    script.addEventListener("load", handleLoad);
+    script.addEventListener("error", handleError);
+
+    if (!existingScript) {
+      script.id = KAKAO_SCRIPT_ID;
+      script.async = true;
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false&libraries=services`;
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      script.removeEventListener("load", handleLoad);
+      script.removeEventListener("error", handleError);
+    };
   }, []);
 
   return (
@@ -68,6 +85,7 @@ export default function LocationSection() {
           <div className="location-panel-body">
             <div className="location-map-wrap">
               <div ref={mapRef} className="location-map" aria-label="카카오맵 위치 지도" />
+              {isMapLoading && <p className="location-map-loading" aria-live="polite">지도를 불러오는 중입니다.</p>}
               {mapError && <p className="location-map-error">{mapError}</p>}
             </div>
 
@@ -80,7 +98,7 @@ export default function LocationSection() {
 
               <article className="location-info-card">
                 <span className="location-label">대표 연락처</span>
-                <h3>{COMPANY_PHONE}</h3>
+                <h3><a href="tel:0319974020">{COMPANY_PHONE}</a></h3>
                 <p>평일 08:30 ~ 17:30 (주말/공휴일 휴무)</p>
               </article>
 

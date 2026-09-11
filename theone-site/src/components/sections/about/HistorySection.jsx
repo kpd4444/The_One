@@ -23,7 +23,6 @@
     date: "2023.03",
     title: "연구개발부서 설립",
     description: "지속 개선을 위한 R&D 기능 강화",
-    details: ["특허 출원 1건 진행", "특허 출원 2건 진행", "특허 출원 3건 진행"],
   },
   {
     date: "2023.04",
@@ -71,7 +70,8 @@ export default function HistorySection() {
   return (
     <section id="history" className="section section-muted">
       <div className="container">
-        <div className="history-v2" role="list" aria-label="회사 연혁 타임라인">
+        <div className="history" role="list" aria-label="회사 연혁 타임라인">
+          <h2 className="visually-hidden">회사 연혁</h2>
           <div className="history-badge-small">HISTORY</div>
 
           {groupedHistory.map(({ year, events }) => (

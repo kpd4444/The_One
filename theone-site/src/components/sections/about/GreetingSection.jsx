@@ -32,7 +32,7 @@ export default function GreetingSection() {
         </div>
 
         <section className="greeting-message" aria-label="대표 인사말">
-          <h3>대표 인사말</h3>
+          <h2>대표 인사말</h2>
           <p>
             더원산업은 각종 장비 보호 케이스 제작 업체로, 무인차량 번호 인식 카메라 케이스,
             로비폰, 무인과속 카메라 케이스, 프로젝트 빔 케이스, ITS 장비 함체 등을 제작하고

@@ -468,3 +468,25 @@
     padding: 18px 16px;
   }
 }
+
+@media (max-width: 900px) {
+  .pg-contact-pill {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    font-size: 0;
+    text-decoration: none;
+  }
+
+  .pg-contact-pill::before {
+    content: "☎";
+    font-size: 1.25rem;
+  }
+
+  .pg-contact-label {
+    display: none;
+  }
+}

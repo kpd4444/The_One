@@ -2,12 +2,6 @@ import itsImg from "../assets/product-its-enclosure.webp";
 import kioskImg from "../assets/product-kiosk-body.webp";
 import projectBeamImg from "../assets/product-project-beam-case-a.webp";
 
-export const metrics = [
-  { label: "진행 프로젝트", value: "210+" },
-  { label: "납기 준수율", value: "98.2%" },
-  { label: "재의뢰 비율", value: "84%" },
-];
-
 export const productGroups = [
   "각종 하우징 및 케이스",
   "무인 정산기 및 로비폰",

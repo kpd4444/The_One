@@ -170,7 +170,9 @@ export default function SiteHeader() {
           </nav>
 
           <div className="pg-nav-utils">
-            <div className="pg-contact-pill">대표번호 031-997-4020</div>
+            <a className="pg-contact-pill" href="tel:0319974020" aria-label="대표번호 031-997-4020로 전화">
+              <span className="pg-contact-label">대표번호 </span>031-997-4020
+            </a>
             <button
               type="button"
               className={`pg-menu-btn ${isPanelOpen ? "is-open" : ""}`}

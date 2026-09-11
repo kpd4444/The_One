@@ -1,10 +1,11 @@
-import { readdir } from "node:fs/promises";
+import { mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const assetRoot = path.resolve("src/assets");
+const sourceRoot = path.resolve("assets-source");
+const outputRoot = path.resolve("src/assets");
 const imageExtensions = new Set([".jpg", ".jpeg", ".png"]);
-const excludedDirectories = new Set(["fonts"]);
+const excludedDirectories = new Set(["fonts", "earth"]);
 const excludedFiles = new Set(["logo.png", "logo2.png"]);
 
 function getTransformOptions(sourceFile) {
@@ -60,14 +61,16 @@ async function collectImages(directory) {
   return files;
 }
 
-const sourceFiles = await collectImages(assetRoot);
+const sourceFiles = await collectImages(sourceRoot);
 
 await Promise.all(
   sourceFiles.map(async (sourceFile) => {
     const parsed = path.parse(sourceFile);
-    const outputFile = path.join(parsed.dir, `${parsed.name}.webp`);
+    const relativeDir = path.relative(sourceRoot, parsed.dir);
+    const outputFile = path.join(outputRoot, relativeDir, `${parsed.name}.webp`);
     const { maxWidth, quality } = getTransformOptions(sourceFile);
 
+    await mkdir(path.dirname(outputFile), { recursive: true });
     await sharp(sourceFile)
       .rotate()
       .resize({

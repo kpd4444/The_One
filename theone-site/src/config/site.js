@@ -2,7 +2,11 @@
 
 export function resolveSiteUrl() {
   const envUrl = import.meta.env.VITE_SITE_URL?.trim();
-  const fallbackUrl = typeof window !== "undefined" ? window.location.origin : DEFAULT_SITE_URL;
-  return (envUrl || fallbackUrl).replace(/\/$/, "");
+  return (envUrl || DEFAULT_SITE_URL).replace(/\/$/, "");
+}
+
+export function isProductionHost() {
+  if (typeof window === "undefined") return true;
+  return ["theone412.com", "www.theone412.com"].includes(window.location.hostname);
 }
 

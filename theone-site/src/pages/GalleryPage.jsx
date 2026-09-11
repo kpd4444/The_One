@@ -1,15 +1,29 @@
 ﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Seo from "../components/Seo";
+import "../styles/gallery.css";
+import aiSafetyImage from "../assets/gallery/thumbs/aisafety키오스크.webp";
+import smartIntersectionImage from "../assets/gallery/thumbs/스마트교차로함체.webp";
+import dataCollectorImage from "../assets/gallery/thumbs/정보수집함체.webp";
+import chillerCaseImage from "../assets/gallery/thumbs/칠러케이스.webp";
+import telecomCaseImage from "../assets/gallery/thumbs/통신함체1.webp";
+import bitBusImage from "../assets/gallery/thumbs/bit버스 안내표지판.webp";
+import daewooLprImage from "../assets/gallery/thumbs/대우 푸르지오LPR.webp";
 
 const galleryFullImageModules = import.meta.glob("../assets/gallery/*.webp", {
-  import: "default",
-});
-
-const galleryThumbImageModules = import.meta.glob("../assets/gallery/thumbs/*.webp", {
   eager: true,
   import: "default",
 });
+
+const extraImageMap = new Map([
+  ["aisafety키오스크", aiSafetyImage],
+  ["스마트교차로함체", smartIntersectionImage],
+  ["정보수집함체", dataCollectorImage],
+  ["칠러케이스", chillerCaseImage],
+  ["통신함체1", telecomCaseImage],
+  ["bit버스 안내표지판", bitBusImage],
+  ["대우 푸르지오LPR", daewooLprImage],
+]);
 
 const categoryRules = [
   {
@@ -73,9 +87,8 @@ const titleOverrides = {
   "32인치 사전무인 정산기 BF 21.5인치 옥외용 정산기2": "BF 21.5인치 정산기",
 };
 
-const loadedFullImageCache = new Map();
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 2.4;
+const MAX_ZOOM = 1.5;
 const ZOOM_STEP = 0.2;
 
 function extractFileName(path) {
@@ -96,25 +109,20 @@ function resolveCategory(fileName) {
   return matchedRule?.category ?? "기타 프로젝트";
 }
 
-const galleryThumbMap = new Map(
-  Object.entries(galleryThumbImageModules).map(([path, src]) => [extractFileName(path), src]),
+const galleryFullImageMap = new Map(
+  Object.entries(galleryFullImageModules).map(([path, src]) => [extractFileName(path), src]),
 );
 
-const galleryFullLoaderMap = new Map(
-  Object.entries(galleryFullImageModules).map(([path, loader]) => [extractFileName(path), loader]),
-);
-
-const baseGalleryItems = Array.from(galleryFullLoaderMap.keys()).map((fileName, index) => {
+const baseGalleryItems = Array.from(galleryFullImageMap.keys()).map((fileName, index) => {
   const title = titleOverrides[fileName] ?? normalizeTitle(fileName);
-  const thumbSrc = galleryThumbMap.get(fileName);
+  const imageSrc = galleryFullImageMap.get(fileName);
 
   return {
     id: `base-${index + 1}`,
     title,
     desc: `${title} 시공 및 제작 사례`,
     category: resolveCategory(fileName),
-    thumbSrc,
-    fullLoader: galleryFullLoaderMap.get(fileName),
+    imageSrc,
     fileName,
   };
 });
@@ -122,17 +130,16 @@ const baseGalleryItems = Array.from(galleryFullLoaderMap.keys()).map((fileName, 
 const existingFileNames = new Set(baseGalleryItems.map((item) => item.fileName));
 
 const additionalGalleryItems = additionalGalleryEntries
-  .filter((item) => !existingFileNames.has(item.fileName) && galleryThumbMap.has(item.fileName))
+  .filter((item) => !existingFileNames.has(item.fileName) && extraImageMap.has(item.fileName))
   .map((item, index) => {
-    const imageSrc = galleryThumbMap.get(item.fileName);
+    const imageSrc = extraImageMap.get(item.fileName);
 
     return {
       id: `extra-${index + 1}`,
       title: item.title,
       desc: `${item.title} 시공 및 제작 사례`,
       category: item.category,
-      thumbSrc: imageSrc,
-      fullLoader: null,
+      imageSrc,
       fileName: item.fileName,
     };
   });
@@ -147,22 +154,6 @@ const galleryItems = [...baseGalleryItems, ...additionalGalleryItems].sort((a, b
 
 const categories = ["전체", ...new Set(galleryItems.map((item) => item.category))];
 
-function loadFullImage(item) {
-  if (!item?.fullLoader) {
-    return Promise.resolve(item?.thumbSrc ?? null);
-  }
-
-  const cached = loadedFullImageCache.get(item.fileName);
-  if (cached) {
-    return Promise.resolve(cached);
-  }
-
-  return item.fullLoader().then((src) => {
-    loadedFullImageCache.set(item.fileName, src);
-    return src;
-  });
-}
-
 function clampZoom(value) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(value.toFixed(2))));
 }
@@ -170,11 +161,11 @@ function clampZoom(value) {
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedImageSrc, setSelectedImageSrc] = useState(null);
-  const [isImageLoading, setIsImageLoading] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(MIN_ZOOM);
   const closeButtonRef = useRef(null);
   const thumbRailRef = useRef(null);
+  const modalRef = useRef(null);
+  const triggerRef = useRef(null);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "전체") return galleryItems;
@@ -187,16 +178,12 @@ export default function GalleryPage() {
   }, [filteredItems, selectedItem]);
 
   const selectGalleryItem = useCallback((item) => {
-    setSelectedImageSrc(item.thumbSrc);
-    setIsImageLoading(Boolean(item.fullLoader));
     setZoomLevel(MIN_ZOOM);
     setSelectedItem(item);
   }, []);
 
   const closeGalleryModal = useCallback(() => {
     setSelectedItem(null);
-    setSelectedImageSrc(null);
-    setIsImageLoading(false);
     setZoomLevel(MIN_ZOOM);
   }, []);
 
@@ -254,6 +241,19 @@ export default function GalleryPage() {
         event.preventDefault();
         resetZoom();
       }
+
+      if (event.key === "Tab" && modalRef.current) {
+        const focusable = [...modalRef.current.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
     };
 
     document.body.style.overflow = "hidden";
@@ -263,48 +263,9 @@ export default function GalleryPage() {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      triggerRef.current?.focus();
     };
   }, [changeZoom, closeGalleryModal, moveSelection, resetZoom, selectedItem]);
-
-  useEffect(() => {
-    if (!selectedItem) return undefined;
-
-    let cancelled = false;
-
-    loadFullImage(selectedItem)
-      .then((src) => {
-        if (!cancelled) {
-          setSelectedImageSrc(src);
-          setIsImageLoading(false);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setIsImageLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedItem]);
-
-  useEffect(() => {
-    if (!selectedItem || selectedIndex < 0) return undefined;
-
-    const previousItem = filteredItems[selectedIndex - 1];
-    const nextItem = filteredItems[selectedIndex + 1];
-
-    if (previousItem) {
-      loadFullImage(previousItem);
-    }
-
-    if (nextItem) {
-      loadFullImage(nextItem);
-    }
-
-    return undefined;
-  }, [filteredItems, selectedIndex, selectedItem]);
 
   useEffect(() => {
     if (!thumbRailRef.current || selectedIndex < 0) return undefined;
@@ -318,18 +279,21 @@ export default function GalleryPage() {
   const hasNextItem = selectedIndex >= 0 && selectedIndex < filteredItems.length - 1;
 
   return (
-    <main className="gallery-page-v2">
+    <main className="gallery-page">
       <Seo
         title="갤러리"
         description="더원산업의 주요 제작물과 시공 사례를 사진으로 확인할 수 있는 갤러리 페이지입니다."
         path="/gallery"
-        keywords={[
-          "더원산업 갤러리",
-          "함체 제작 사례",
-          "키오스크 제작 사례",
-          "ITS 시공 사례",
-          "하우징 제작 사진",
-        ]}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          name: "더원산업 제작 사례",
+          image: galleryItems.map((item) => ({
+            "@type": "ImageObject",
+            name: item.title,
+            contentUrl: item.imageSrc,
+          })),
+        }}
       />
 
       <section className="section">
@@ -340,13 +304,13 @@ export default function GalleryPage() {
             <strong>갤러리</strong>
           </div>
 
-          <header className="gallery-hero-v2">
-            <p className="gallery-kicker-v2">GALLERY</p>
+          <header className="gallery-hero">
+            <p className="gallery-kicker">GALLERY</p>
             <h1>갤러리</h1>
             <p>더원산업의 주요 제작물과 시공 사례를 사진으로 확인하실 수 있습니다.</p>
           </header>
 
-          <div className="gallery-toolbar-v2">
+          <div className="gallery-toolbar">
             <div className="gallery-filter-row" role="tablist" aria-label="갤러리 분류">
               {categories.map((category) => (
                 <button
@@ -363,28 +327,32 @@ export default function GalleryPage() {
                 </button>
               ))}
             </div>
-            <p className="gallery-count-v2">
+            <p className="gallery-count">
               <strong>{filteredItems.length}</strong>개의 프로젝트를 보고 있습니다.
             </p>
           </div>
 
-          <section className="gallery-grid-v2" aria-label="갤러리 목록">
+          <section className="gallery-grid" aria-label="갤러리 목록">
             {filteredItems.map((item) => (
               <button
                 key={item.id}
                 type="button"
-                className="gallery-card-v2"
-                onClick={() => selectGalleryItem(item)}
+                className="gallery-card"
+                onClick={(event) => {
+                  triggerRef.current = event.currentTarget;
+                  selectGalleryItem(item);
+                }}
+                aria-label={`${item.title} 상세 이미지 보기`}
               >
-                <figure className="gallery-thumb-v2">
-                  <span className="gallery-card-hint-v2">클릭해 크게 보기</span>
-                  <img src={item.thumbSrc} alt={item.title} loading="lazy" decoding="async" />
+                <figure className="gallery-thumb">
+                  <span className="gallery-card-hint">클릭해 크게 보기</span>
+                  <img src={item.imageSrc} alt={item.title} loading="lazy" decoding="async" />
                 </figure>
-                <div className="gallery-meta-v2">
+                <div className="gallery-meta">
                   <span>{item.category}</span>
-                  <h2>{item.title}</h2>
+                  <span className="gallery-card-title">{item.title}</span>
                   <p>{item.desc}</p>
-                  <strong className="gallery-card-link-v2">상세 이미지 보기</strong>
+                  <strong className="gallery-card-link">상세 이미지 보기</strong>
                 </div>
               </button>
             ))}
@@ -395,12 +363,13 @@ export default function GalleryPage() {
       {selectedItem &&
         createPortal(
           <div
-            className="gallery-modal-overlay-v2"
+            className="gallery-modal-overlay"
             onClick={closeGalleryModal}
             role="presentation"
           >
             <div
-              className="gallery-modal-v2"
+              className="gallery-modal"
+              ref={modalRef}
               onClick={(event) => event.stopPropagation()}
               role="dialog"
               aria-modal="true"
@@ -408,7 +377,7 @@ export default function GalleryPage() {
             >
               <button
                 type="button"
-                className="gallery-modal-close-v2"
+                className="gallery-modal-close"
                 ref={closeButtonRef}
                 onClick={closeGalleryModal}
                 aria-label="갤러리 닫기"
@@ -416,21 +385,21 @@ export default function GalleryPage() {
                 ×
               </button>
 
-              <div className="gallery-modal-topbar-v2">
-                <span className="gallery-modal-counter-v2">
+              <div className="gallery-modal-topbar">
+                <span className="gallery-modal-counter">
                   {selectedIndex + 1} / {filteredItems.length}
                 </span>
                 <p>방향키 이동, +/- 확대, 0 초기화를 사용할 수 있습니다.</p>
               </div>
 
-              <div className="gallery-modal-meta-v2">
+              <div className="gallery-modal-meta">
                 <span>{selectedItem.category}</span>
                 <h3>{selectedItem.title}</h3>
                 <p>{selectedItem.desc}</p>
               </div>
 
-              <div className="gallery-modal-controls-v2">
-                <div className="gallery-modal-zoom-v2" role="group" aria-label="이미지 확대 및 축소">
+              <div className="gallery-modal-controls">
+                <div className="gallery-modal-zoom" role="group" aria-label="이미지 확대 및 축소">
                   <button type="button" onClick={() => changeZoom(-ZOOM_STEP)} disabled={zoomLevel <= MIN_ZOOM}>
                     -
                   </button>
@@ -444,11 +413,11 @@ export default function GalleryPage() {
                 </div>
               </div>
 
-              <figure className="gallery-modal-image-v2">
+              <figure className="gallery-modal-image">
                 {hasPrevItem && (
                   <button
                     type="button"
-                    className="gallery-modal-nav-v2 prev"
+                    className="gallery-modal-nav prev"
                     onClick={() => moveSelection(-1)}
                     aria-label="이전 이미지 보기"
                   >
@@ -456,16 +425,9 @@ export default function GalleryPage() {
                   </button>
                 )}
 
-                {isImageLoading && (
-                  <div className="gallery-modal-loading-v2" aria-live="polite">
-                    <span className="gallery-modal-loading-spinner-v2" />
-                    <strong>원본 이미지를 불러오는 중입니다.</strong>
-                  </div>
-                )}
-
-                <div className={`gallery-modal-image-stage-v2 ${zoomLevel > MIN_ZOOM ? "is-zoomed" : ""}`}>
+                <div className={`gallery-modal-image-stage ${zoomLevel > MIN_ZOOM ? "is-zoomed" : ""}`}>
                   <img
-                    src={selectedImageSrc ?? selectedItem.thumbSrc}
+                    src={selectedItem.imageSrc}
                     alt={selectedItem.title}
                     decoding="async"
                     fetchPriority="high"
@@ -476,7 +438,7 @@ export default function GalleryPage() {
                 {hasNextItem && (
                   <button
                     type="button"
-                    className="gallery-modal-nav-v2 next"
+                    className="gallery-modal-nav next"
                     onClick={() => moveSelection(1)}
                     aria-label="다음 이미지 보기"
                   >
@@ -485,21 +447,21 @@ export default function GalleryPage() {
                 )}
               </figure>
 
-              <div className="gallery-modal-strip-wrap-v2">
-                <div className="gallery-modal-strip-v2" ref={thumbRailRef} aria-label="갤러리 썸네일 탐색">
+              <div className="gallery-modal-strip-wrap">
+                <div className="gallery-modal-strip" ref={thumbRailRef} aria-label="갤러리 썸네일 탐색">
                   {filteredItems.map((item) => {
                     const isActive = item.id === selectedItem.id;
                     return (
                       <button
                         key={item.id}
                         type="button"
-                        className={`gallery-modal-thumb-v2 ${isActive ? "active" : ""}`.trim()}
+                        className={`gallery-modal-thumb ${isActive ? "active" : ""}`.trim()}
                         data-active={isActive ? "true" : "false"}
                         onClick={() => selectGalleryItem(item)}
                         aria-label={`${item.title} 보기`}
                         aria-pressed={isActive}
                       >
-                        <img src={item.thumbSrc} alt="" loading="lazy" decoding="async" />
+                        <img src={item.imageSrc} alt="" loading="lazy" decoding="async" />
                         <span>{item.title}</span>
                       </button>
                     );

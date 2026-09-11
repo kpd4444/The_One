@@ -2,6 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import Seo from "../components/Seo";
+import "../styles/about.css";
 
 const GreetingSection = lazy(() => import("../components/sections/about/GreetingSection"));
 const HistorySection = lazy(() => import("../components/sections/about/HistorySection"));
@@ -47,8 +48,13 @@ export default function AboutPage() {
       <Seo
         title={`회사소개 - ${activeSection.menu}`}
         description={`더원산업의 ${activeSection.menu} 정보를 확인할 수 있는 회사소개 페이지입니다.`}
-        path={`/about#${activeSection.id}`}
-        keywords={["더원산업", "회사소개", activeSection.menu, "함체 제작 기업"]}
+        path="/about"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: `더원산업 회사소개 - ${activeSection.menu}`,
+          url: "https://theone412.com/about",
+        }}
       />
 
       <div className="container">

@@ -72,4 +72,4 @@
 - Site URL: `https://theone412.com`
 - Sitemap: `https://theone412.com/sitemap.xml`
 - Robots: `https://theone412.com/robots.txt`
-- 기본 OG 이미지: `/og-cover.svg`
+- 기본 OG 이미지: `/og-cover.png` (1200×630)
