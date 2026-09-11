@@ -16,6 +16,7 @@
   --line: #d9e2ec;
   --radius: 16px;
   --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --fs-sm: 0.95rem;
   --font-ui: "IBM Plex Sans KR", "Malgun Gothic", sans-serif;
   --font-title: "Space Grotesk", "IBM Plex Sans KR", sans-serif;
 }

@@ -1,6 +1,6 @@
-import itsImg from "../assets/product-its-enclosure.webp";
-import kioskImg from "../assets/product-kiosk-body.webp";
-import projectBeamImg from "../assets/product-project-beam-case-a.webp";
+import itsImg from "../assets/gallery/ITS 함체.webp";
+import kioskImg from "../assets/gallery/주차무인정산기.webp";
+import projectBeamImg from "../assets/gallery/빔프로젝트하우징.webp";
 
 export const productGroups = [
   "각종 하우징 및 케이스",

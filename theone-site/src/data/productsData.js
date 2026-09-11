@@ -64,14 +64,31 @@ export const productFeatures = [
   "태양열에 의한 내부 온도 상승을 줄이는 이중 구조 적용",
 ];
 
-export const applicationFields = [
-  "VDS",
-  "RWIS",
-  "AVI",
-  "VMS",
-  "ITS용 함체",
-  "주차 관제",
-  "통신 장비",
+export const applicationAreas = [
+  {
+    title: "지능형 교통 시스템",
+    tags: ["VDS", "RWIS", "AVI", "VMS", "ITS용 함체"],
+    description:
+      "도로 교통 정보를 수집·표출하는 제어 장비를 외부 환경으로부터 보호하는 함체를 제작합니다.",
+  },
+  {
+    title: "주차 관제",
+    tags: ["무인 정산기", "GATE LPR", "키오스크"],
+    description:
+      "차량번호 인식과 요금 정산 장비에 맞춘 케이스 및 현장 운용 구조를 제공합니다.",
+  },
+  {
+    title: "통신·기반 시설",
+    tags: ["통신 장비", "제어 함체", "옥외 설비"],
+    description:
+      "통신 및 제어 장비의 배선, 방열, 유지보수 동선을 고려한 맞춤 함체를 설계합니다.",
+  },
+  {
+    title: "카메라·현장 장비",
+    tags: ["단속 카메라", "차량번호 인식", "프로젝터 하우징"],
+    description:
+      "카메라와 광학 장비가 설치 환경에서 안정적으로 작동하도록 전용 하우징을 제작합니다.",
+  },
 ];
 
 export const pageTabs = [

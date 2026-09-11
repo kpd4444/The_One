@@ -1,4 +1,4 @@
-﻿import heroImage from "../../../assets/about-intro-visual.webp";
+﻿import heroImage from "../../../assets/gallery/통신함체.webp";
 
 export default function GreetingSection() {
   return (

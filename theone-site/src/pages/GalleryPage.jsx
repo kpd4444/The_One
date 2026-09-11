@@ -124,7 +124,6 @@ const baseGalleryItems = Array.from(galleryFullImageMap.keys()).map(
     return {
       id: `base-${index + 1}`,
       title,
-      desc: `${title} 시공 및 제작 사례`,
       category: resolveCategory(fileName),
       imageSrc,
       fileName,
@@ -147,7 +146,6 @@ const additionalGalleryItems = additionalGalleryEntries
     return {
       id: `extra-${index + 1}`,
       title: item.title,
-      desc: `${item.title} 시공 및 제작 사례`,
       category: item.category,
       imageSrc,
       fileName: item.fileName,
@@ -379,7 +377,6 @@ export default function GalleryPage() {
                 aria-label={`${item.title} 상세 이미지 보기`}
               >
                 <figure className="gallery-thumb">
-                  <span className="gallery-card-hint">클릭해 크게 보기</span>
                   <img
                     src={item.imageSrc}
                     alt={item.title}
@@ -390,7 +387,6 @@ export default function GalleryPage() {
                 <div className="gallery-meta">
                   <span>{item.category}</span>
                   <span className="gallery-card-title">{item.title}</span>
-                  <p>{item.desc}</p>
                   <strong className="gallery-card-link">
                     상세 이미지 보기
                   </strong>
@@ -426,20 +422,14 @@ export default function GalleryPage() {
                 ×
               </button>
 
-              <div className="gallery-modal-topbar">
+              <header className="gallery-modal-header">
                 <span className="gallery-modal-counter">
                   {selectedIndex + 1} / {filteredItems.length}
                 </span>
-                <p>방향키 이동, +/- 확대, 0 초기화를 사용할 수 있습니다.</p>
-              </div>
-
-              <div className="gallery-modal-meta">
-                <span>{selectedItem.category}</span>
-                <h3>{selectedItem.title}</h3>
-                <p>{selectedItem.desc}</p>
-              </div>
-
-              <div className="gallery-modal-controls">
+                <div className="gallery-modal-meta">
+                  <span>{selectedItem.category}</span>
+                  <h3>{selectedItem.title}</h3>
+                </div>
                 <div
                   className="gallery-modal-zoom"
                   role="group"
@@ -469,9 +459,14 @@ export default function GalleryPage() {
                     초기화
                   </button>
                 </div>
-              </div>
+              </header>
+              <p className="gallery-modal-help">
+                방향키 이동, +/- 확대, 0 초기화를 사용할 수 있습니다.
+              </p>
 
-              <figure className="gallery-modal-image">
+              <figure
+                className={`gallery-modal-image ${zoomLevel > MIN_ZOOM ? "is-zoomed" : ""}`.trim()}
+              >
                 {hasPrevItem && (
                   <button
                     type="button"

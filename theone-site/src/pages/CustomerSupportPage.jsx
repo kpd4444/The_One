@@ -175,9 +175,22 @@ export default function CustomerSupportPage() {
                   </article>
                 ) : (
                   <>
-                    <div className="support-board-top">
-                      총 {filteredNotices.length}건
-                    </div>
+                    <form
+                      className="support-search-box"
+                      onSubmit={(event) => event.preventDefault()}
+                    >
+                      <span className="support-board-count">
+                        총 {filteredNotices.length}건
+                      </span>
+                      <input
+                        type="search"
+                        placeholder="제목 검색"
+                        aria-label="공지사항 제목 검색"
+                        value={keyword}
+                        onChange={(event) => setKeyword(event.target.value)}
+                      />
+                      <button type="submit">검색</button>
+                    </form>
                     <div
                       className="support-table-wrap"
                       role="table"
@@ -208,18 +221,6 @@ export default function CustomerSupportPage() {
                         </div>
                       ))}
                     </div>
-                    <form
-                      className="support-search-box"
-                      onSubmit={(event) => event.preventDefault()}
-                    >
-                      <input
-                        type="search"
-                        placeholder="제목 검색"
-                        aria-label="공지사항 제목 검색"
-                        value={keyword}
-                        onChange={(event) => setKeyword(event.target.value)}
-                      />
-                    </form>
                   </>
                 )}
               </>

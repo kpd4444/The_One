@@ -86,14 +86,13 @@ export default function HistorySection() {
 
               <div className="history-year-events">
                 {events.map((event, index) => {
-                  const sideClass = index % 2 === 0 ? "right" : "left";
                   const majorClass = index === 0 ? "is-major" : "";
 
                   return (
                     <article
                       key={`${event.date}-${event.title}`}
                       role="listitem"
-                      className={`history-event ${sideClass} ${majorClass}`.trim()}
+                      className={`history-event ${majorClass}`.trim()}
                     >
                       <span className="history-dot" aria-hidden="true" />
 

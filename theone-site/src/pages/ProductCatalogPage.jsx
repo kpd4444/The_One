@@ -5,7 +5,7 @@ import Seo from "../components/Seo";
 import useAccessibleModal from "../hooks/useAccessibleModal";
 import "../styles/products.css";
 import {
-  applicationFields,
+  applicationAreas,
   pageTabs,
   productFeatures,
   products,
@@ -87,47 +87,62 @@ export default function ProductCatalogPage() {
               className="product-feature-duo"
               aria-label={currentTab === "feature" ? "제품 특성" : "적용 분야"}
             >
-              <article className="product-feature-card">
-                <h2>{currentTab === "feature" ? "제품 특성" : "적용 분야"}</h2>
-                {currentTab === "feature" ? (
+              {currentTab === "feature" ? (
+                <article className="product-feature-card">
                   <ul>
                     {productFeatures.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                ) : (
-                  <div className="product-application-chips">
-                    {applicationFields.map((field) => (
-                      <span key={field}>{field}</span>
-                    ))}
-                  </div>
-                )}
-              </article>
-            </section>
-            <section className="product-mini-grid" aria-label="제품 카드 목록">
-              {products.map((product) => (
-                <article key={product.id} className="product-mini-card">
-                  <button
-                    type="button"
-                    className="product-mini-link"
-                    onClick={() => openModal(product)}
-                    aria-label={`${product.name} 상세 보기`}
-                  >
-                    <div className="product-mini-top">{product.name}</div>
-                    <div className="product-mini-image-row">
-                      <figure>
-                        <img
-                          src={product.images[0]}
-                          alt={product.name}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </figure>
-                    </div>
-                  </button>
                 </article>
-              ))}
+              ) : (
+                <div className="product-application-grid">
+                  {applicationAreas.map((area) => (
+                    <article
+                      key={area.title}
+                      className="product-application-card"
+                    >
+                      <h2>{area.title}</h2>
+                      <p>{area.description}</p>
+                      <div className="product-application-chips">
+                        {area.tags.map((tag) => (
+                          <span key={tag}>{tag}</span>
+                        ))}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </section>
+            {currentTab === "feature" && (
+              <section
+                className="product-mini-grid"
+                aria-label="제품 카드 목록"
+              >
+                {products.map((product) => (
+                  <article key={product.id} className="product-mini-card">
+                    <button
+                      type="button"
+                      className="product-mini-link"
+                      onClick={() => openModal(product)}
+                      aria-label={`${product.name} 상세 보기`}
+                    >
+                      <div className="product-mini-top">{product.name}</div>
+                      <div className="product-mini-image-row">
+                        <figure>
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </figure>
+                      </div>
+                    </button>
+                  </article>
+                ))}
+              </section>
+            )}
           </section>
         </div>
       </div>
