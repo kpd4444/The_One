@@ -110,27 +110,37 @@ function resolveCategory(fileName) {
 }
 
 const galleryFullImageMap = new Map(
-  Object.entries(galleryFullImageModules).map(([path, src]) => [extractFileName(path), src]),
+  Object.entries(galleryFullImageModules).map(([path, src]) => [
+    extractFileName(path),
+    src,
+  ]),
 );
 
-const baseGalleryItems = Array.from(galleryFullImageMap.keys()).map((fileName, index) => {
-  const title = titleOverrides[fileName] ?? normalizeTitle(fileName);
-  const imageSrc = galleryFullImageMap.get(fileName);
+const baseGalleryItems = Array.from(galleryFullImageMap.keys()).map(
+  (fileName, index) => {
+    const title = titleOverrides[fileName] ?? normalizeTitle(fileName);
+    const imageSrc = galleryFullImageMap.get(fileName);
 
-  return {
-    id: `base-${index + 1}`,
-    title,
-    desc: `${title} 시공 및 제작 사례`,
-    category: resolveCategory(fileName),
-    imageSrc,
-    fileName,
-  };
-});
+    return {
+      id: `base-${index + 1}`,
+      title,
+      desc: `${title} 시공 및 제작 사례`,
+      category: resolveCategory(fileName),
+      imageSrc,
+      fileName,
+    };
+  },
+);
 
-const existingFileNames = new Set(baseGalleryItems.map((item) => item.fileName));
+const existingFileNames = new Set(
+  baseGalleryItems.map((item) => item.fileName),
+);
 
 const additionalGalleryItems = additionalGalleryEntries
-  .filter((item) => !existingFileNames.has(item.fileName) && extraImageMap.has(item.fileName))
+  .filter(
+    (item) =>
+      !existingFileNames.has(item.fileName) && extraImageMap.has(item.fileName),
+  )
   .map((item, index) => {
     const imageSrc = extraImageMap.get(item.fileName);
 
@@ -144,15 +154,20 @@ const additionalGalleryItems = additionalGalleryEntries
     };
   });
 
-const galleryItems = [...baseGalleryItems, ...additionalGalleryItems].sort((a, b) => {
-  if (a.category !== b.category) {
-    return a.category.localeCompare(b.category, "ko");
-  }
+const galleryItems = [...baseGalleryItems, ...additionalGalleryItems].sort(
+  (a, b) => {
+    if (a.category !== b.category) {
+      return a.category.localeCompare(b.category, "ko");
+    }
 
-  return a.fileName.localeCompare(b.fileName, "ko", { numeric: true });
-});
+    return a.fileName.localeCompare(b.fileName, "ko", { numeric: true });
+  },
+);
 
-const categories = ["전체", ...new Set(galleryItems.map((item) => item.category))];
+const categories = [
+  "전체",
+  ...new Set(galleryItems.map((item) => item.category)),
+];
 
 function clampZoom(value) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(value.toFixed(2))));
@@ -243,7 +258,11 @@ export default function GalleryPage() {
       }
 
       if (event.key === "Tab" && modalRef.current) {
-        const focusable = [...modalRef.current.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')];
+        const focusable = [
+          ...modalRef.current.querySelectorAll(
+            'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+          ),
+        ];
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (event.shiftKey && document.activeElement === first) {
@@ -270,13 +289,20 @@ export default function GalleryPage() {
   useEffect(() => {
     if (!thumbRailRef.current || selectedIndex < 0) return undefined;
 
-    const activeThumb = thumbRailRef.current.querySelector('[data-active="true"]');
-    activeThumb?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const activeThumb = thumbRailRef.current.querySelector(
+      '[data-active="true"]',
+    );
+    activeThumb?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
     return undefined;
   }, [selectedIndex]);
 
   const hasPrevItem = selectedIndex > 0;
-  const hasNextItem = selectedIndex >= 0 && selectedIndex < filteredItems.length - 1;
+  const hasNextItem =
+    selectedIndex >= 0 && selectedIndex < filteredItems.length - 1;
 
   return (
     <main className="gallery-page">
@@ -307,11 +333,18 @@ export default function GalleryPage() {
           <header className="gallery-hero">
             <p className="gallery-kicker">GALLERY</p>
             <h1>갤러리</h1>
-            <p>더원산업의 주요 제작물과 시공 사례를 사진으로 확인하실 수 있습니다.</p>
+            <p>
+              더원산업의 주요 제작물과 시공 사례를 사진으로 확인하실 수
+              있습니다.
+            </p>
           </header>
 
           <div className="gallery-toolbar">
-            <div className="gallery-filter-row" role="tablist" aria-label="갤러리 분류">
+            <div
+              className="gallery-filter-row"
+              role="tablist"
+              aria-label="갤러리 분류"
+            >
               {categories.map((category) => (
                 <button
                   key={category}
@@ -328,7 +361,8 @@ export default function GalleryPage() {
               ))}
             </div>
             <p className="gallery-count">
-              <strong>{filteredItems.length}</strong>개의 프로젝트를 보고 있습니다.
+              <strong>{filteredItems.length}</strong>개의 프로젝트를 보고
+              있습니다.
             </p>
           </div>
 
@@ -346,13 +380,20 @@ export default function GalleryPage() {
               >
                 <figure className="gallery-thumb">
                   <span className="gallery-card-hint">클릭해 크게 보기</span>
-                  <img src={item.imageSrc} alt={item.title} loading="lazy" decoding="async" />
+                  <img
+                    src={item.imageSrc}
+                    alt={item.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </figure>
                 <div className="gallery-meta">
                   <span>{item.category}</span>
                   <span className="gallery-card-title">{item.title}</span>
                   <p>{item.desc}</p>
-                  <strong className="gallery-card-link">상세 이미지 보기</strong>
+                  <strong className="gallery-card-link">
+                    상세 이미지 보기
+                  </strong>
                 </div>
               </button>
             ))}
@@ -399,15 +440,32 @@ export default function GalleryPage() {
               </div>
 
               <div className="gallery-modal-controls">
-                <div className="gallery-modal-zoom" role="group" aria-label="이미지 확대 및 축소">
-                  <button type="button" onClick={() => changeZoom(-ZOOM_STEP)} disabled={zoomLevel <= MIN_ZOOM}>
+                <div
+                  className="gallery-modal-zoom"
+                  role="group"
+                  aria-label="이미지 확대 및 축소"
+                >
+                  <button
+                    type="button"
+                    onClick={() => changeZoom(-ZOOM_STEP)}
+                    disabled={zoomLevel <= MIN_ZOOM}
+                  >
                     -
                   </button>
                   <strong>{Math.round(zoomLevel * 100)}%</strong>
-                  <button type="button" onClick={() => changeZoom(ZOOM_STEP)} disabled={zoomLevel >= MAX_ZOOM}>
+                  <button
+                    type="button"
+                    onClick={() => changeZoom(ZOOM_STEP)}
+                    disabled={zoomLevel >= MAX_ZOOM}
+                  >
                     +
                   </button>
-                  <button type="button" className="ghost" onClick={resetZoom} disabled={zoomLevel === MIN_ZOOM}>
+                  <button
+                    type="button"
+                    className="ghost"
+                    onClick={resetZoom}
+                    disabled={zoomLevel === MIN_ZOOM}
+                  >
                     초기화
                   </button>
                 </div>
@@ -425,7 +483,9 @@ export default function GalleryPage() {
                   </button>
                 )}
 
-                <div className={`gallery-modal-image-stage ${zoomLevel > MIN_ZOOM ? "is-zoomed" : ""}`}>
+                <div
+                  className={`gallery-modal-image-stage ${zoomLevel > MIN_ZOOM ? "is-zoomed" : ""}`}
+                >
                   <img
                     src={selectedItem.imageSrc}
                     alt={selectedItem.title}
@@ -448,7 +508,11 @@ export default function GalleryPage() {
               </figure>
 
               <div className="gallery-modal-strip-wrap">
-                <div className="gallery-modal-strip" ref={thumbRailRef} aria-label="갤러리 썸네일 탐색">
+                <div
+                  className="gallery-modal-strip"
+                  ref={thumbRailRef}
+                  aria-label="갤러리 썸네일 탐색"
+                >
                   {filteredItems.map((item) => {
                     const isActive = item.id === selectedItem.id;
                     return (
@@ -461,7 +525,12 @@ export default function GalleryPage() {
                         aria-label={`${item.title} 보기`}
                         aria-pressed={isActive}
                       >
-                        <img src={item.imageSrc} alt="" loading="lazy" decoding="async" />
+                        <img
+                          src={item.imageSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
                         <span>{item.title}</span>
                       </button>
                     );

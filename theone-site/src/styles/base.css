@@ -65,7 +65,11 @@ img {
   color: #334155;
   background:
     radial-gradient(circle at top, rgba(15, 76, 129, 0.14), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 246, 252, 0.92)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(242, 246, 252, 0.92)
+    ),
     #f7f9fc;
 }
 

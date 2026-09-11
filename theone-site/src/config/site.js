@@ -7,6 +7,7 @@ export function resolveSiteUrl() {
 
 export function isProductionHost() {
   if (typeof window === "undefined") return true;
-  return ["theone412.com", "www.theone412.com"].includes(window.location.hostname);
+  return ["theone412.com", "www.theone412.com"].includes(
+    window.location.hostname,
+  );
 }
-

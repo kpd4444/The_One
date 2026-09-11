@@ -2,10 +2,11 @@
 import path from "node:path";
 
 const DEFAULT_SITE_URL = "https://theone412.com";
-const siteUrl = (process.env.SITE_URL || process.env.VITE_SITE_URL || DEFAULT_SITE_URL).replace(
-  /\/$/,
-  "",
-);
+const siteUrl = (
+  process.env.SITE_URL ||
+  process.env.VITE_SITE_URL ||
+  DEFAULT_SITE_URL
+).replace(/\/$/, "");
 
 const routes = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
@@ -45,4 +46,3 @@ await fs.writeFile(path.join(publicDir, "sitemap.xml"), sitemap, "utf8");
 await fs.writeFile(path.join(publicDir, "robots.txt"), robots, "utf8");
 
 console.log(`[seo] Generated sitemap.xml and robots.txt for ${siteUrl}`);
-

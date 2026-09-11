@@ -7,14 +7,14 @@ import {
   loadGalleryPage,
   loadHomePage,
   loadProductCatalogPage,
-  loadSupportPage,
-} from "./utils/pageLoaders";
+  loadCustomerSupportPage,
+} from "./utils/routeLoaders";
 
-const MainPage = lazy(loadHomePage);
+const HomePage = lazy(loadHomePage);
 const AboutPage = lazy(loadAboutPage);
-const ProductsPage = lazy(loadProductCatalogPage);
+const ProductCatalogPage = lazy(loadProductCatalogPage);
 const GalleryPage = lazy(loadGalleryPage);
-const SupportPage = lazy(loadSupportPage);
+const CustomerSupportPage = lazy(loadCustomerSupportPage);
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 
@@ -23,11 +23,11 @@ export default function App() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products" element={<ProductCatalogPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/support" element={<SupportPage />} />
+          <Route path="/support" element={<CustomerSupportPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

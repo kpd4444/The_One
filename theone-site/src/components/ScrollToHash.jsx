@@ -12,7 +12,11 @@ export default function ScrollManager() {
 
     // About/Products/Support pages use hash/query as tab-like navigation.
     // Prevent jumping to bottom when switching sections in those pages.
-    if (pathname === "/about" || pathname === "/products" || pathname === "/support") {
+    if (
+      pathname === "/about" ||
+      pathname === "/products" ||
+      pathname === "/support"
+    ) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }

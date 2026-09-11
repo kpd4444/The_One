@@ -73,22 +73,32 @@ export default function Seo({
   const structuredDataText = JSON.stringify(structuredData);
 
   useEffect(() => {
-    const currentPath = path || `${window.location.pathname}${window.location.search}`;
+    const currentPath =
+      path || `${window.location.pathname}${window.location.search}`;
     const siteUrl = resolveSiteUrl();
     const url = new URL(currentPath, `${siteUrl}/`).toString();
     const imageUrl = new URL(image, `${siteUrl}/`).toString();
-    const titleText = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+    const titleText = title.includes(SITE_NAME)
+      ? title
+      : `${title} | ${SITE_NAME}`;
     const parsedStructuredData = JSON.parse(structuredDataText);
-    const jsonLdItems = (Array.isArray(parsedStructuredData)
-      ? parsedStructuredData
-      : [parsedStructuredData]).filter(Boolean);
+    const jsonLdItems = (
+      Array.isArray(parsedStructuredData)
+        ? parsedStructuredData
+        : [parsedStructuredData]
+    ).filter(Boolean);
 
     document.title = titleText;
     document.documentElement.lang = "ko";
 
     setMetaByName("description", description);
-    const isProduction = ["theone412.com", "www.theone412.com"].includes(window.location.hostname);
-    setMetaByName("robots", robots || (isProduction ? "index,follow" : "noindex,nofollow"));
+    const isProduction = ["theone412.com", "www.theone412.com"].includes(
+      window.location.hostname,
+    );
+    setMetaByName(
+      "robots",
+      robots || (isProduction ? "index,follow" : "noindex,nofollow"),
+    );
     setMetaByName("theme-color", "#102645");
 
     setMetaByProperty("og:type", type);

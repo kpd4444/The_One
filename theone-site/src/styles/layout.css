@@ -21,8 +21,12 @@
   }
 }
 
-.section { padding: 88px 0; }
-.section-muted { background: #eef3f9; }
+.section {
+  padding: 88px 0;
+}
+.section-muted {
+  background: #eef3f9;
+}
 
 .section-head {
   margin-bottom: 18px;
@@ -104,8 +108,12 @@
 }
 
 @media (max-width: 900px) {
-  .card-grid { grid-template-columns: 1fr; }
-  .container { width: min(1120px, calc(100% - 32px)); }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .container {
+    width: min(1120px, calc(100% - 32px));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

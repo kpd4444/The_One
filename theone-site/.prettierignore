@@ -1,0 +1,6 @@
+node_modules
+dist
+assets-source
+retired
+package-lock.json
+public/*.xml

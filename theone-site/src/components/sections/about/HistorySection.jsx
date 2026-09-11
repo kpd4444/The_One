@@ -75,7 +75,11 @@ export default function HistorySection() {
           <div className="history-badge-small">HISTORY</div>
 
           {groupedHistory.map(({ year, events }) => (
-            <section key={year} className="history-year-section" aria-label={`${year}년 연혁`}>
+            <section
+              key={year}
+              className="history-year-section"
+              aria-label={`${year}년 연혁`}
+            >
               <header className="history-year-divider">
                 <span>{year}</span>
               </header>
@@ -95,12 +99,18 @@ export default function HistorySection() {
 
                       <div className="history-card">
                         <div className="history-card-top">
-                          <span className="history-month-badge">{event.month}월</span>
+                          <span className="history-month-badge">
+                            {event.month}월
+                          </span>
                         </div>
 
                         <h3>{event.title}</h3>
 
-                        {event.description && <p className="history-description">{event.description}</p>}
+                        {event.description && (
+                          <p className="history-description">
+                            {event.description}
+                          </p>
+                        )}
 
                         {event.details && event.details.length > 0 && (
                           <details className="history-more">

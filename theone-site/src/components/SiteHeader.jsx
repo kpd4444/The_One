@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.webp";
-import { preloadPage } from "../utils/pageLoaders";
+import { preloadPage } from "../utils/routeLoaders";
 
 const navItems = [
   {
@@ -89,7 +89,8 @@ export default function SiteHeader() {
     return () => window.cancelAnimationFrame(frameId);
   }, [pathname, search, hash]);
 
-  const activePanelItem = navItems.find((item) => item.label === panelSection) ?? navItems[0];
+  const activePanelItem =
+    navItems.find((item) => item.label === panelSection) ?? navItems[0];
 
   return (
     <header className="pg-header">
@@ -133,7 +134,9 @@ export default function SiteHeader() {
                 >
                   <NavLink
                     to={item.to}
-                    className={({ isActive }) => `pg-nav-main-link ${isActive ? "active" : ""}`}
+                    className={({ isActive }) =>
+                      `pg-nav-main-link ${isActive ? "active" : ""}`
+                    }
                     onFocus={() => preloadPage(item.to)}
                   >
                     {item.label}
@@ -170,7 +173,11 @@ export default function SiteHeader() {
           </nav>
 
           <div className="pg-nav-utils">
-            <a className="pg-contact-pill" href="tel:0319974020" aria-label="대표번호 031-997-4020로 전화">
+            <a
+              className="pg-contact-pill"
+              href="tel:0319974020"
+              aria-label="대표번호 031-997-4020로 전화"
+            >
               <span className="pg-contact-label">대표번호 </span>031-997-4020
             </a>
             <button

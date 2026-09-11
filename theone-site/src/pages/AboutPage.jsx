@@ -4,10 +4,18 @@ import PageLoader from "../components/PageLoader";
 import Seo from "../components/Seo";
 import "../styles/about.css";
 
-const GreetingSection = lazy(() => import("../components/sections/about/GreetingSection"));
-const HistorySection = lazy(() => import("../components/sections/about/HistorySection"));
-const OrgChartSection = lazy(() => import("../components/sections/about/OrgChartSection"));
-const LocationSection = lazy(() => import("../components/sections/about/LocationSection"));
+const GreetingSection = lazy(
+  () => import("../components/sections/about/GreetingSection"),
+);
+const HistorySection = lazy(
+  () => import("../components/sections/about/HistorySection"),
+);
+const OrgChartSection = lazy(
+  () => import("../components/sections/about/OrgChartSection"),
+);
+const LocationSection = lazy(
+  () => import("../components/sections/about/LocationSection"),
+);
 
 const aboutSections = [
   {
@@ -37,7 +45,9 @@ export default function AboutPage() {
   const activeId = hash ? hash.replace("#", "") : "greeting";
 
   const activeSection = useMemo(
-    () => aboutSections.find((section) => section.id === activeId) ?? aboutSections[0],
+    () =>
+      aboutSections.find((section) => section.id === activeId) ??
+      aboutSections[0],
     [activeId],
   );
 
@@ -89,7 +99,9 @@ export default function AboutPage() {
             </header>
 
             <div className="about-section-panel">
-              <Suspense fallback={<PageLoader label="섹션을 불러오는 중입니다." />}>
+              <Suspense
+                fallback={<PageLoader label="섹션을 불러오는 중입니다." />}
+              >
                 <ActiveComponent />
               </Suspense>
             </div>

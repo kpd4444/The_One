@@ -7,6 +7,15 @@ const outputRoot = path.resolve("src/assets");
 const imageExtensions = new Set([".jpg", ".jpeg", ".png"]);
 const excludedDirectories = new Set(["fonts", "earth"]);
 const excludedFiles = new Set(["logo.png", "logo2.png"]);
+const retainedGalleryThumbs = new Set([
+  "aisafety키오스크",
+  "스마트교차로함체",
+  "정보수집함체",
+  "칠러케이스",
+  "통신함체1",
+  "bit버스 안내표지판",
+  "대우 푸르지오LPR",
+]);
 
 function getTransformOptions(sourceFile) {
   const normalizedPath = sourceFile.split(path.sep).join("/");
@@ -61,13 +70,25 @@ async function collectImages(directory) {
   return files;
 }
 
-const sourceFiles = await collectImages(sourceRoot);
+const sourceFiles = (await collectImages(sourceRoot)).filter((sourceFile) => {
+  const normalizedPath = sourceFile.split(path.sep).join("/");
+
+  if (!normalizedPath.includes("/gallery/thumbs/")) {
+    return true;
+  }
+
+  return retainedGalleryThumbs.has(path.parse(sourceFile).name);
+});
 
 await Promise.all(
   sourceFiles.map(async (sourceFile) => {
     const parsed = path.parse(sourceFile);
     const relativeDir = path.relative(sourceRoot, parsed.dir);
-    const outputFile = path.join(outputRoot, relativeDir, `${parsed.name}.webp`);
+    const outputFile = path.join(
+      outputRoot,
+      relativeDir,
+      `${parsed.name}.webp`,
+    );
     const { maxWidth, quality } = getTransformOptions(sourceFile);
 
     await mkdir(path.dirname(outputFile), { recursive: true });

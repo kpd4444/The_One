@@ -1,5 +1,3 @@
-
-
 .product-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -404,7 +402,11 @@
   border: 1px solid #d8e2ee;
   border-radius: 18px;
   background:
-    radial-gradient(circle at 100% 0%, rgba(54, 110, 165, 0.10), transparent 46%),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(54, 110, 165, 0.1),
+      transparent 46%
+    ),
     linear-gradient(180deg, #fbfdff 0%, #f1f6fc 100%);
   padding: 20px 22px;
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.05);
@@ -451,8 +453,11 @@
 .product-mini-card {
   border: 1px solid #d8e1ec;
   border-radius: 20px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(247, 250, 255, 0.97));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.99),
+    rgba(247, 250, 255, 0.97)
+  );
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
   transition:
     transform 220ms ease,
@@ -473,7 +478,7 @@
 
 .product-mini-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 42px rgba(15, 23, 42, 0.10);
+  box-shadow: 0 24px 42px rgba(15, 23, 42, 0.1);
   border-color: #c1d4ea;
 }
 
@@ -486,8 +491,7 @@
   min-height: 42px;
   padding: 10px 14px;
   border-radius: 12px;
-  background:
-    linear-gradient(135deg, #edf4fc 0%, #dce9f7 100%);
+  background: linear-gradient(135deg, #edf4fc 0%, #dce9f7 100%);
   color: #16365d;
   font-size: 0.92rem;
   font-weight: 800;
@@ -510,8 +514,7 @@
   margin: 0;
   border: 1px solid #d9e2ec;
   border-radius: 16px;
-  background:
-    linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
   aspect-ratio: 4 / 3;
   overflow: hidden;
 }
@@ -543,9 +546,12 @@
   width: min(620px, 100%);
   border: 1px solid #d6e0eb;
   border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 251, 255, 0.97));
-  box-shadow: 0 28px 56px rgba(15, 23, 42, 0.20);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.99),
+    rgba(248, 251, 255, 0.97)
+  );
+  box-shadow: 0 28px 56px rgba(15, 23, 42, 0.2);
   padding: 22px;
   position: relative;
   transform-origin: center top;
@@ -643,6 +649,13 @@
   cursor: pointer;
 }
 
-.product-modal-gallery button.active { border-color: #1f6feb; }
+.product-modal-gallery button.active {
+  border-color: #1f6feb;
+}
 
-.product-modal-gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+.product-modal-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}

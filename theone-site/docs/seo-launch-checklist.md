@@ -20,11 +20,13 @@
 ## 3. 메타 / OG 확인 포인트
 
 ### 홈
+
 - [ ] 브라우저 탭 제목이 브랜드명과 핵심 키워드를 포함하는지 확인
 - [ ] 페이지 소스에서 `canonical`이 `https://theone412.com/`로 나오는지 확인
 - [ ] `og:title`, `og:description`, `og:image`가 존재하는지 확인
 
 ### 서브 페이지
+
 - [ ] `/about`
 - [ ] `/products`
 - [ ] `/gallery`

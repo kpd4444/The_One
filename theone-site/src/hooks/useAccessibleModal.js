@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export default function useAccessibleModal(isOpen, onClose) {
   const dialogRef = useRef(null);
@@ -32,7 +33,9 @@ export default function useAccessibleModal(isOpen, onClose) {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.requestAnimationFrame(() => dialogRef.current?.querySelector(FOCUSABLE)?.focus());
+    window.requestAnimationFrame(() =>
+      dialogRef.current?.querySelector(FOCUSABLE)?.focus(),
+    );
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);

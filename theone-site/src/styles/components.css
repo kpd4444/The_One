@@ -6,7 +6,11 @@
 
 .home-page {
   background:
-    radial-gradient(circle at top right, rgba(83, 150, 209, 0.14), transparent 28%),
+    radial-gradient(
+      circle at top right,
+      rgba(83, 150, 209, 0.14),
+      transparent 28%
+    ),
     linear-gradient(180deg, #f5f8fc 0%, #ffffff 34%, #f3f7fb 100%);
 }
 
@@ -15,9 +19,20 @@
   overflow: hidden;
   padding: 84px 0 40px;
   background:
-    radial-gradient(circle at 78% 18%, rgba(104, 170, 224, 0.22), transparent 18%),
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(104, 170, 224, 0.22),
+      transparent 18%
+    ),
     radial-gradient(circle at 82% 12%, rgba(17, 45, 79, 0.92), transparent 30%),
-    linear-gradient(135deg, #09131f 0%, #0f2943 42%, #123b61 68%, #e9f0f7 68%, #f4f8fb 100%);
+    linear-gradient(
+      135deg,
+      #09131f 0%,
+      #0f2943 42%,
+      #123b61 68%,
+      #e9f0f7 68%,
+      #f4f8fb 100%
+    );
 }
 
 .home-hero-shell {
@@ -180,8 +195,11 @@
 .home-capability-card {
   border: 1px solid #d7e2ed;
   border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 252, 0.98));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(244, 248, 252, 0.98)
+  );
   padding: 26px;
   box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
   animation: home-fade-up 0.6s ease both;
@@ -282,8 +300,11 @@
   inset: auto 0 0 0;
   padding: 18px;
   color: #fff;
-  background:
-    linear-gradient(180deg, rgba(4, 12, 22, 0) 0%, rgba(4, 12, 22, 0.92) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 12, 22, 0) 0%,
+    rgba(4, 12, 22, 0.92) 100%
+  );
 }
 
 .home-project-overlay span {
@@ -303,15 +324,22 @@
 
 .home-bottom-cta {
   background:
-    radial-gradient(circle at 15% 50%, rgba(66, 126, 177, 0.14), transparent 22%),
+    radial-gradient(
+      circle at 15% 50%,
+      rgba(66, 126, 177, 0.14),
+      transparent 22%
+    ),
     linear-gradient(180deg, #f3f7fb 0%, #edf4fa 100%);
 }
 
 .home-bottom-cta-wrap {
   border: 1px solid #d0ddeb;
   border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(243, 248, 252, 0.98));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(243, 248, 252, 0.98)
+  );
   padding: 30px;
   display: flex;
   justify-content: space-between;
@@ -506,8 +534,7 @@ main {
 
 .site-footer {
   border-top: 1px solid #d5e0eb;
-  background:
-    linear-gradient(180deg, #f3f7fb 0%, #edf3f9 100%);
+  background: linear-gradient(180deg, #f3f7fb 0%, #edf3f9 100%);
 }
 
 .footer-wrap {
@@ -560,8 +587,18 @@ main {
   .home-hero {
     padding-top: 56px;
     background:
-      radial-gradient(circle at 50% 10%, rgba(16, 76, 129, 0.24), transparent 34%),
-      linear-gradient(180deg, #09131f 0%, #123b61 52%, #f4f8fb 52%, #f4f8fb 100%);
+      radial-gradient(
+        circle at 50% 10%,
+        rgba(16, 76, 129, 0.24),
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        #09131f 0%,
+        #123b61 52%,
+        #f4f8fb 52%,
+        #f4f8fb 100%
+      );
   }
 
   .home-hero-shell,
@@ -585,7 +622,6 @@ main {
   .home-hero-visual {
     min-height: 520px;
   }
-
 
   .home-hero-panel {
     position: relative;
@@ -625,7 +661,6 @@ main {
     min-height: 430px;
   }
 
-
   .home-hero-panel {
     padding: 18px;
     margin-top: -12px;
@@ -663,7 +698,11 @@ main {
   border-radius: 20px;
   padding: 30px;
   background:
-    radial-gradient(circle at 100% 0%, rgba(15, 76, 129, 0.16), transparent 44%),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(15, 76, 129, 0.16),
+      transparent 44%
+    ),
     linear-gradient(160deg, #fafdff 0%, #edf3fb 100%);
 }
 
@@ -779,7 +818,6 @@ main {
 }
 
 @media (max-width: 900px) {
-
   .catalog-code {
     font-size: 1.35rem;
   }
@@ -791,7 +829,11 @@ main {
   overflow: hidden;
   border: 1px solid rgba(107, 181, 255, 0.28);
   border-radius: 36px;
-  background: linear-gradient(145deg, rgba(19, 58, 97, 0.9), rgba(8, 28, 52, 0.96));
+  background: linear-gradient(
+    145deg,
+    rgba(19, 58, 97, 0.9),
+    rgba(8, 28, 52, 0.96)
+  );
   box-shadow: 0 34px 70px rgba(0, 15, 35, 0.35);
 }
 
@@ -799,7 +841,9 @@ main {
   position: absolute;
   inset: 0;
   opacity: 0.3;
-  background-image: linear-gradient(rgba(115, 187, 255, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(115, 187, 255, 0.3) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(115, 187, 255, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(115, 187, 255, 0.3) 1px, transparent 1px);
   background-size: 42px 42px;
   transform: perspective(500px) rotateX(58deg) scale(1.4);
 }
@@ -813,7 +857,9 @@ main {
   border: 8px solid #98abc0;
   border-radius: 18px;
   background: linear-gradient(135deg, #e7edf4, #71869d);
-  box-shadow: inset -18px -18px 30px rgba(15, 35, 58, 0.34), 25px 30px 38px rgba(0, 8, 20, 0.4);
+  box-shadow:
+    inset -18px -18px 30px rgba(15, 35, 58, 0.34),
+    25px 30px 38px rgba(0, 8, 20, 0.4);
   transform: rotateY(-12deg) rotateX(5deg);
 }
 
@@ -828,8 +874,12 @@ main {
   background: #284966;
 }
 
-.home-static-case::before { top: 18%; }
-.home-static-case::after { bottom: 18%; }
+.home-static-case::before {
+  top: 18%;
+}
+.home-static-case::after {
+  bottom: 18%;
+}
 
 .not-found-content,
 .legal-content {
@@ -839,15 +889,32 @@ main {
 }
 
 .not-found-content h1,
-.legal-content h1 { color: #102645; font-size: clamp(2rem, 5vw, 3.6rem); }
-.not-found-content .btn { margin-top: 24px; }
-.legal-content section { margin-top: 36px; }
-.legal-content h2 { color: #173b63; font-size: 1.25rem; }
-.legal-content p { line-height: 1.85; }
-.legal-effective-date { margin-top: 48px; color: #52637a; }
+.legal-content h1 {
+  color: #102645;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+}
+.not-found-content .btn {
+  margin-top: 24px;
+}
+.legal-content section {
+  margin-top: 36px;
+}
+.legal-content h2 {
+  color: #173b63;
+  font-size: 1.25rem;
+}
+.legal-content p {
+  line-height: 1.85;
+}
+.legal-effective-date {
+  margin-top: 48px;
+  color: #52637a;
+}
 
 .footer-info a,
-.footer-meta a { color: inherit; }
+.footer-meta a {
+  color: inherit;
+}
 
 .gallery-card,
 .product-mini-card {
@@ -875,4 +942,3 @@ main {
     transform: none;
   }
 }
-
