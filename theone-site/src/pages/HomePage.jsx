@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
 import { resolveSiteUrl } from "../config/site";
+import blueprintImage from "../assets/enclosure-blueprint-animated.svg";
 import {
   featuredProjects,
   processSteps,
@@ -40,6 +42,12 @@ const HOME_SCHEMA = [
 ];
 
 export default function HomePage() {
+  const [blueprintRun, setBlueprintRun] = useState(() => Date.now());
+
+  const replayBlueprint = () => {
+    setBlueprintRun((currentRun) => currentRun + 1);
+  };
+
   return (
     <main className="home-page">
       <Seo
@@ -80,9 +88,20 @@ export default function HomePage() {
               </div>
             </div>
             <div className="home-hero-visual is-ready">
-              <div className="home-static-visual" aria-hidden="true">
-                <span className="home-static-grid" />
-                <span className="home-static-case" />
+              <div className="home-static-visual">
+                <span className="home-static-grid" aria-hidden="true" />
+                <button
+                  type="button"
+                  className="home-static-case"
+                  onClick={replayBlueprint}
+                  aria-label="함체 도면 애니메이션 다시 재생"
+                >
+                  <img
+                    key={blueprintRun}
+                    src={`${blueprintImage}?play=${blueprintRun}`}
+                    alt=""
+                  />
+                </button>
               </div>
               <aside className="home-hero-panel" aria-label="제작 역량">
                 <h2>맞춤 제작 역량</h2>
